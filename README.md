@@ -1,1 +1,1 @@
-# CPSC-436I-Group-Project
+# Westore
