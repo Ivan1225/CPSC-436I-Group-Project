@@ -30,6 +30,7 @@ A web app for merchants and buyers.
     - Postcode check
 
 ### Task Breakdown Examples
+---
 - #### _Index page with buttons direct to merchant login page and customer login page_
     - Background image 
     - Button directs to merchant page
@@ -43,7 +44,6 @@ A web app for merchants and buyers.
     - Authentication
     - A link directs to register
     - Background image
----
 
 ### Prototypes
 ---
