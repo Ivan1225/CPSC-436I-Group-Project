@@ -1,5 +1,4 @@
 # Wstore
----
 App for merchants and buyers.
 
 ### Project Description
