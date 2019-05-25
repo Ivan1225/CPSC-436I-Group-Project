@@ -47,8 +47,8 @@ A web app for merchants and buyers.
 
 ### Prototypes
 ---
-[Index Page](./prototypes/index.pdf)
-[Login Page](./prototypes/login.pdf)
-[Register Page](./prototypes/register.pdf)
-[List Page](./prototypes/list.pdf)
+- [Index Page](./prototypes/index.pdf)
+- [Login Page](./prototypes/login.pdf)
+- [Register Page](./prototypes/register.pdf)
+- [List Page](./prototypes/list.pdf)
 
