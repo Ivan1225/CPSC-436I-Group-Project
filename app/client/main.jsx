@@ -1,8 +1,18 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
+import { Provider } from "react-redux";
 import { render } from 'react-dom';
-import App from '/imports/ui/App'
+import Index from "./components/index";
+import configureStore from "./store/configure_store";
+
+const store = configureStore();
 
 Meteor.startup(() => {
-  render(<App />, document.getElementById('react-target'));
+  console.log(configureStore)
+  render(
+    <Provider store={store}>
+      <Index />
+    </Provider>,
+    document.getElementById('react-target')
+  );
 });
