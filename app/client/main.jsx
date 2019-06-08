@@ -8,7 +8,6 @@ import configureStore from "./store/configure_store";
 const store = configureStore();
 
 Meteor.startup(() => {
-  console.log(configureStore)
   render(
     <Provider store={store}>
       <Index />

@@ -1,2 +1,3 @@
 export const MAIN = {
+  LOGIN_POPUP_HANDLER: 'LOGIN_POPUP_HANDLER',
 };
