@@ -12,6 +12,11 @@ export default function (state = initialState, action) {
         ...state,
         loginPopup: action.on,
       }
+    case 'REGISTER_POPUP_HANDLER':
+      return {
+        ...state,
+        registerPopup: action.on,
+      }
     default:
       return state;
   }

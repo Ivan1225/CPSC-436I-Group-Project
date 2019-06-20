@@ -10,7 +10,6 @@ function mapStateToProps(state) {
   };
 }
 
-
 class Index extends Component {
   static propTypes = {
     loginPopup: PropTypes.bool.isRequired,
