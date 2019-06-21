@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types';
 import 'bootstrap/dist/css/bootstrap.css';
 import { loginPopupHandler } from '../actions/main';
@@ -35,11 +36,21 @@ class NavBar extends Component {
             <a href="#" />
             Wstore
           </div>
-          <form className="form-inline">
+          <div className="form-inline">
             <button className="btn btn-outline-success" type="button">Become a merchant</button>
-            <button className="btn btn-outline-success" type="button">Sign up</button>
-            <button className="btn btn-outline-success" type="button" onClick={this.openLoginPopup}>Log in</button>
-          </form>
+            <Link
+              to="/signup"
+              className="btn btn-outline-success"
+            >
+                Sign up
+            </Link>
+            <Link
+              to="/login"
+              className="btn btn-outline-success"
+            >
+              Log in
+            </Link>
+          </div>
         </nav>
       </div>
     );

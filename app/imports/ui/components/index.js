@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import NavBar from './_nav_bar';
-import Login from './login';
+import LoginForm from './login_form';
+import RegisterForm from './register_form';
+import IndexContent from './_index_content';
 
 function mapStateToProps(state) {
   return {
@@ -23,11 +26,26 @@ class Index extends Component {
     return (
       <div>
         <div>
-          <NavBar />
-          <main id="site-content">
-
-          </main>
-          {loginPopup && (<Login />)}
+          <BrowserRouter>
+            <NavBar />
+            <Switch>
+              <Route
+                exact
+                path="/"
+                component={IndexContent}
+              />
+              <Route
+                exact
+                path="/login"
+                component={LoginForm}
+              />
+              <Route
+                exact
+                path="/signup"
+                component={RegisterForm}
+              />
+            </Switch>
+          </BrowserRouter>
         </div>
       </div>
     );

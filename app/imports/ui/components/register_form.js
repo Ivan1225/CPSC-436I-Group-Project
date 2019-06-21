@@ -7,7 +7,7 @@ function mapStateToProps(state) {
   };
 }
 
-class Register extends Component {
+class RegisterForm extends Component {
   render() {
     return (
       <div>
@@ -19,4 +19,4 @@ class Register extends Component {
 
 export default connect(
   mapStateToProps,
-)(Register);
+)(RegisterForm);
