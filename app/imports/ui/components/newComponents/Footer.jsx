@@ -13,24 +13,24 @@ class Footer extends Component {
                 <div className="container">
                     <span className="text-muted">
                         © 2019 Wstore, Inc. All rights reserved
-                        <div class ="container">
+                        <div className ="container">
                         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
 
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#basicExampleModal">
+                        <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#basicExampleModal">
                                 Launch demo modal
                             </button>
-                            <div class="modal fade" id="basicExampleModal" tabindex="-1">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
+                            <div className="modal fade" id="basicExampleModal" tabIndex="-1">
+                                <div className="modal-dialog">
+                                    <div className="modal-content">
+                                        <div className="modal-header">
                                             <h3>A title</h3>
                                         </div>
-                                        <div class="modal-body">
+                                        <div className="modal-body">
                                             adadadadadada
                                         </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <div className="modal-footer">
+                                            <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
                                         </div>
                                     </div>
                                 </div>
@@ -48,7 +48,7 @@ class Footer extends Component {
             //                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#basicExampleModal">
             //                     Launch demo modal
             //                 </button>
-            //                 <div class="modal fade" id="basicExampleModal" tabindex="-1">
+            //                 <div class="modal fade" id="basicExampleModal" tabIndex="-1">
             //                     <div class="modal-dialog">
             //                         <div class="modal-content">
             //                             <div class="modal-header">

@@ -2,59 +2,47 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import NavBar from './_nav_bar';
+import NavBar from './newComponents/NavBar.jsx'
 import LoginForm from './login/login_form';
 import SignUp from './signup/SignUp';
 import IndexContent from './_index_content';
 import Home from './pages/Home.jsx'
-
+import Profile from './profile/profile'
 
 class Index extends Component {
   render() {
     return (
       <BrowserRouter>
         <div>
-          <Route exact path="/" component={Home}/>
+          <NavBar />
+          <Switch>
+            <Route
+              exact
+              path="/"
+              component={Home}
+            />
+            <Route
+              exact
+              path="/:id([a-zA-Z0-9-]+)/profile"
+              component={Profile}
+            />
+            <Route
+              exact
+              path="/login"
+              component={LoginForm}
+            />
+            <Route
+              exact
+              path="/signup"
+              component={SignUp}
+            />
+          </Switch>
         </div>
       </BrowserRouter>
     );
   }
 }
-
 export default Index;
-
-// class Index extends Component{
-//   render(){
-//     return(
-//       <BrowserRouter>
-//         <div>
-//           <BrowserRouter>
-//             <NavBar />
-//             <Switch>
-//               <Route
-//                 exact
-//                 path="/"
-//                 component={IndexContent}
-//               />
-//               <Route
-//                 exact
-//                 path="/login"
-//                 component={LoginForm}
-//               />
-//               <Route
-//                 exact
-//                 path="/signup"
-//                 component={SignUp}
-//               />
-//             </Switch>
-//           </BrowserRouter>
-//         </div>
-//       </BrowserRouter>
-//     );
-//   }
-// }
-
-
 
 // import styled from 'styled-components';
 // const Button = styled.button `

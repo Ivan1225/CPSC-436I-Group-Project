@@ -1,14 +1,29 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import './Jumbotron.css';
 
+
+function mapStateToProps(state) {
+    return {
+        intro: state.main.intro,
+        subIntro: state.main.subIntro,
+    };
+}
+
 class Jumbotron extends Component {
+    static propTypes = {
+        intro: PropTypes.string.isRequired,
+        subIntro: PropTypes.string.isRequired,
+      };
+
     render() {
         return (
             <div className="jumbotron">
                 <h1 className="display-4">WStore Adventures</h1>
-                <p className="lead">Explore our high-quality products from our credible partners.</p>
+                <p className="lead">{this.props.intro}</p>
                 <hr className="my-4" />
-                <p>From Local but not only Local.</p>
+                <p>{this.props.subIntro}</p>
                 <p className="lead">
                     <a className="btn btn-primary btn-lg" href="#" role="button">Explore</a>
                 </p>
@@ -17,5 +32,6 @@ class Jumbotron extends Component {
     }
 }
 
-export default Jumbotron;
-
+export default connect(
+    mapStateToProps,
+)(Jumbotron);
