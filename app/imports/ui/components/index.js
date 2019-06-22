@@ -6,8 +6,6 @@ import NavBar from './_nav_bar';
 import LoginForm from './login/login_form';
 import SignUp from './signup/SignUp';
 import IndexContent from './_index_content';
-// import './Index.css';
-
 import Home from './pages/Home.jsx'
 
 
