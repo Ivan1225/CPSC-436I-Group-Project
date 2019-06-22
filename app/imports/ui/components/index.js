@@ -8,6 +8,7 @@ import SignUp from './signup/SignUp';
 import IndexContent from './_index_content';
 import Home from './pages/Home.jsx'
 import Profile from './profile/profile'
+import Popup from './newComponents/Popup';
 
 class Index extends Component {
   render() {
@@ -37,6 +38,7 @@ class Index extends Component {
               component={SignUp}
             />
           </Switch>
+          <Popup />
         </div>
       </BrowserRouter>
     );

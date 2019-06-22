@@ -3,9 +3,6 @@ import { Link } from 'react-router-dom';
 import './Footer.css';
 import 'bootstrap/dist/css/bootstrap.css'
 
-$('#basicExampleModal').on('shown.bs.modal', function () {
-    $('#myInput').trigger('focus')
-  })
 class Footer extends Component {
     render() {
         return (
@@ -13,30 +10,10 @@ class Footer extends Component {
                 <div className="container">
                     <span className="text-muted">
                         © 2019 Wstore, Inc. All rights reserved
-                        <div className ="container">
-                        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-
-
-                        <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#basicExampleModal">
-                                Launch demo modal
-                            </button>
-                            <div className="modal fade" id="basicExampleModal" tabIndex="-1">
-                                <div className="modal-dialog">
-                                    <div className="modal-content">
-                                        <div className="modal-header">
-                                            <h3>A title</h3>
-                                        </div>
-                                        <div className="modal-body">
-                                            adadadadadada
-                                        </div>
-                                        <div className="modal-footer">
-                                            <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        </span>
+                    </span>
+                    <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
+                        Policy
+                    </button>
                 </div>
             </footer>
             // <footer class="page-footer font-small cyan darken-3">
