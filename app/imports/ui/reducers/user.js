@@ -45,6 +45,7 @@ export default function (state = initialState, action) {
         curretUserId: null,
       }
     case USER.UPDATE_USER:
+      console.log(action.user)
       return {
         ...state,
         users: _.map(state.users, u => {

@@ -6,3 +6,8 @@ export const loginPopupHandler = (on) => {
     on,
   };
 }
+export const openPolicyModal = () => {
+  return {
+    type: MAIN.OPEN_POLICY_MODAL,
+  };
+}

@@ -2,6 +2,15 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import './Footer.css';
 import 'bootstrap/dist/css/bootstrap.css'
+import { connect } from 'react-redux';
+
+function mapDispatchToProps(dispatch) {
+    return {
+
+    };
+}
+
+
 
 class Footer extends Component {
     render() {
@@ -20,6 +29,9 @@ class Footer extends Component {
     }
 }
 
-export default Footer;
+export default connect(
+    null,
+    mapDispatchToProps,
+)(Footer);
 
 //&#169; {new Data().getFullYear()}
