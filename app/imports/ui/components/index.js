@@ -3,8 +3,8 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import NavBar from './_nav_bar';
-import LoginForm from './login_form';
-import RegisterForm from './register_form';
+import LoginForm from './login/login_form';
+import SignUp from './signup/SignUp';
 import IndexContent from './_index_content';
 
 import Home from './pages/Home.jsx'
@@ -15,7 +15,26 @@ class Index extends Component{
     return(
       <BrowserRouter>
         <div>
-          <Route exact path = "/" component = {Home}/>
+          <BrowserRouter>
+            <NavBar />
+            <Switch>
+              <Route
+                exact
+                path="/"
+                component={IndexContent}
+              />
+              <Route
+                exact
+                path="/login"
+                component={LoginForm}
+              />
+              <Route
+                exact
+                path="/signup"
+                component={SignUp}
+              />
+            </Switch>
+          </BrowserRouter>
         </div>
       </BrowserRouter>
     );
