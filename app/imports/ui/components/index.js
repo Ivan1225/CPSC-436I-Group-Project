@@ -3,8 +3,8 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import NavBar from './_nav_bar';
-import LoginForm from './login_form';
-import RegisterForm from './register_form';
+import LoginForm from './login/login_form';
+import SignUp from './signup/SignUp';
 import IndexContent from './_index_content';
 
 function mapStateToProps(state) {
@@ -42,7 +42,7 @@ class Index extends Component {
               <Route
                 exact
                 path="/signup"
-                component={RegisterForm}
+                component={SignUp}
               />
             </Switch>
           </BrowserRouter>

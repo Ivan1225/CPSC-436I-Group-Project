@@ -20,5 +20,5 @@ react-meteor-data       # React higher-order component for reactively tracking M
 twbs:bootstrap
 accounts-facebook
 accounts-google
-meteoreact:accounts
-meteoreact:accounts-unstyled
+accounts-base
+accounts-password
