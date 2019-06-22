@@ -9,7 +9,10 @@ import IndexContent from './_index_content';
 import Home from './pages/Home.jsx'
 import Profile from './profile/profile'
 <<<<<<< HEAD
+<<<<<<< HEAD
 import Popup from './newComponents/Popup';
+=======
+>>>>>>> 0c511e0... Profile added
 =======
 >>>>>>> 0c511e0... Profile added
 
@@ -42,7 +45,10 @@ class Index extends Component {
             />
           </Switch>
 <<<<<<< HEAD
+<<<<<<< HEAD
           <Popup />
+=======
+>>>>>>> 0c511e0... Profile added
 =======
 >>>>>>> 0c511e0... Profile added
         </div>
