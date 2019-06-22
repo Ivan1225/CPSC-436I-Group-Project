@@ -16,35 +16,6 @@ class Footer extends Component {
                     </button>
                 </div>
             </footer>
-            // <footer class="page-footer font-small cyan darken-3">
-            //     <div class="container">
-            //         {/* <div class="row"> */}
-            //         <div class="col-md-12 py-5">
-            //             <div class="mb-5 flex-center">
-
-            //                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#basicExampleModal">
-            //                     Launch demo modal
-            //                 </button>
-            //                 <div class="modal fade" id="basicExampleModal" tabIndex="-1">
-            //                     <div class="modal-dialog">
-            //                         <div class="modal-content">
-            //                             <div class="modal-header">
-            //                                 <h3>A title</h3>
-            //                             </div>
-            //                             <div class="modal-body">
-            //                                 adadadadadada
-            //                             </div>
-            //                             <div class="modal-footer">
-            //                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            //                             </div>
-            //                         </div>
-            //                     </div>
-            //                 </div>
-            //             </div>
-            //         </div>
-            //     </div>
-            // </footer>
-
         );
     }
 }
