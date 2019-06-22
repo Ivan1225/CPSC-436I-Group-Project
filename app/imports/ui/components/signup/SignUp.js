@@ -5,6 +5,9 @@ import {
   FormGroup,
   FormControl,
 } from "react-bootstrap";
+import {
+	withRouter
+} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import LoaderButton from "../loader/LoaderButton";
 import "./SignUp.css";
@@ -22,6 +25,7 @@ const mapDispatchToProps = (dispatch) => {
 class Signup extends Component {
   static propTypes = {
     register: PropTypes.func.isRequired,
+    history: PropTypes.object.isRequired,
   };
 
   constructor(props) {
@@ -60,8 +64,8 @@ class Signup extends Component {
       lastName: this.state.lastName,
       phoneNumber: this.state.phoneNumber,
     }
-    this.props.register(newUser).then;
-
+    this.props.register(newUser);
+    // this.props.history.push("/");
   }
 
   renderForm() {
@@ -138,6 +142,6 @@ class Signup extends Component {
   }
 }
 
-export default connect(
-  mapDispatchToProps,
-)(Signup);
+export default connect(null,
+  mapDispatchToProps
+)(withRouter(Signup));

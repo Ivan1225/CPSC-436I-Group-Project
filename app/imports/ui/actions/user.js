@@ -19,3 +19,9 @@ export const logoutHandler = () => {
     type: USER.LOGOUT_HANDLER,
   };
 }
+export const updateUser = (user) => {
+  return {
+    type: USER.UPDATE_USER,
+    user
+  };
+}
