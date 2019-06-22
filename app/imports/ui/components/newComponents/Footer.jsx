@@ -8,6 +8,7 @@ class Footer extends Component {
             <footer className="footer">
                 <div className="container">
                     <span className="text-muted">© 2019 Wstore, Inc. All rights reserved</span>
+                    
                 </div>
             </footer>
         );

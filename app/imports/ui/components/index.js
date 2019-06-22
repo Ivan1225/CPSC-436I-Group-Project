@@ -6,35 +6,17 @@ import NavBar from './_nav_bar';
 import LoginForm from './login/login_form';
 import SignUp from './signup/SignUp';
 import IndexContent from './_index_content';
+// import './Index.css';
 
 import Home from './pages/Home.jsx'
 
 
-class Index extends Component{
-  render(){
-    return(
+class Index extends Component {
+  render() {
+    return (
       <BrowserRouter>
         <div>
-          <BrowserRouter>
-            <NavBar />
-            <Switch>
-              <Route
-                exact
-                path="/"
-                component={IndexContent}
-              />
-              <Route
-                exact
-                path="/login"
-                component={LoginForm}
-              />
-              <Route
-                exact
-                path="/signup"
-                component={SignUp}
-              />
-            </Switch>
-          </BrowserRouter>
+          <Route exact path="/" component={Home}/>
         </div>
       </BrowserRouter>
     );
@@ -42,6 +24,39 @@ class Index extends Component{
 }
 
 export default Index;
+
+// class Index extends Component{
+//   render(){
+//     return(
+//       <BrowserRouter>
+//         <div>
+//           <BrowserRouter>
+//             <NavBar />
+//             <Switch>
+//               <Route
+//                 exact
+//                 path="/"
+//                 component={IndexContent}
+//               />
+//               <Route
+//                 exact
+//                 path="/login"
+//                 component={LoginForm}
+//               />
+//               <Route
+//                 exact
+//                 path="/signup"
+//                 component={SignUp}
+//               />
+//             </Switch>
+//           </BrowserRouter>
+//         </div>
+//       </BrowserRouter>
+//     );
+//   }
+// }
+
+
 
 // import styled from 'styled-components';
 // const Button = styled.button `
