@@ -10,6 +10,7 @@ import Home from './pages/Home.jsx'
 import Profile from './profile/profile'
 import Popup from './newComponents/Popup';
 import AccountsUIWrapper from './account_ui_wrapper';
+import productPost from './productpost/productPost';
 
 class Index extends Component {
   render() {
@@ -22,6 +23,11 @@ class Index extends Component {
               exact
               path="/"
               component={Home}
+            />
+            <Route
+              exact
+              path="/productpost"
+              component={productPost}
             />
             <Route
               exact
