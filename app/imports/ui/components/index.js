@@ -9,6 +9,7 @@ import IndexContent from './_index_content';
 import Home from './pages/Home.jsx'
 import Profile from './profile/profile'
 import Popup from './newComponents/Popup';
+import AccountsUIWrapper from './account_ui_wrapper';
 
 class Index extends Component {
   render() {

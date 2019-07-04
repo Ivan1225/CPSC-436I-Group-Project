@@ -1,17 +1,15 @@
 import React, { Component } from "react";
+import Base64 from 'base-64';
 import { connect } from 'react-redux';
-import {
-  HelpBlock,
-  FormGroup,
-  FormControl,
-} from "react-bootstrap";
+import { Form, Row, Col, FormGroup, ControlLabel, Button } from 'react-bootstrap';
 import {
 	withRouter
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import LoaderButton from "../loader/LoaderButton";
-import "./SignUp.css";
 import { registerSuccessfullyHandler } from '../../actions/user';
+import StyledSignup from './styles';
+import { Accounts } from 'meteor/accounts-base';
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -30,6 +28,12 @@ class Signup extends Component {
 
   constructor(props) {
     super(props);
+    this.email = React.createRef();
+    this.password = React.createRef();
+    this.confirmPassword= React.createRef();
+    this.firstName= React.createRef();
+    this.lastName= React.createRef();
+    this.phoneNumber= React.createRef();
 
     this.state = {
       email: "",
@@ -57,87 +61,113 @@ class Signup extends Component {
 
   handleSubmit = async event => {
     event.preventDefault();
-    const newUser = {
-      email: this.state.email,
-      password: this.state.password,
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
-      phoneNumber: this.state.phoneNumber,
-    }
-    this.props.register(newUser);
-    // this.props.history.push("/");
-  }
 
-  renderForm() {
-    return (
-      <form onSubmit={this.handleSubmit}>
-        <FormGroup controlId="firstName" bssize="large">
-          <label>First Name</label>
-          <FormControl
-            autoFocus
-            value={this.state.firstName}
-            onChange={this.handleChange}
-          />
-        </FormGroup>
-        <FormGroup controlId="lastName" bssize="large">
-          <label>Last Name</label>
-          <FormControl
-            autoFocus
-            value={this.state.lastName}
-            onChange={this.handleChange}
-          />
-        </FormGroup>
-        <FormGroup controlId="email" bssize="large">
-          <label>Email</label>
-          <FormControl
-            autoFocus
-            type="email"
-            value={this.state.email}
-            onChange={this.handleChange}
-          />
-        </FormGroup>
-        <FormGroup controlId="password" bssize="large">
-          <label>Password</label>
-          <FormControl
-            value={this.state.password}
-            onChange={this.handleChange}
-            type="password"
-          />
-        </FormGroup>
-        <FormGroup controlId="confirmPassword" bssize="large">
-          <label>Confirm Password</label>
-          <FormControl
-            value={this.state.confirmPassword}
-            onChange={this.handleChange}
-            type="password"
-          />
-        </FormGroup>
-        <FormGroup controlId="phoneNumber" bssize="large">
-          <label>Phone Number</label>
-          <FormControl
-            autoFocus
-            value={this.state.phoneNumber}
-            onChange={this.handleChange}
-          />
-        </FormGroup>
-        <LoaderButton
-          block
-          bssize="large"
-          disabled={!this.validateForm()}
-          type="submit"
-          isLoading={this.state.isLoading}
-          text="Signup"
-          loadingText="Signing up…"
-        />
-      </form>
+    Accounts.createUser(
+      {
+        email: this.email.current.value,
+        password: Base64.encode(this.password.current.value),
+        profile: {
+          name: {
+            first: this.firstName.current.value,
+            last: this.lastName.current.value,
+          },
+          phoneNumber: this.phoneNumber.current.value,
+        },
+      },
+      (error) => {
+        console.log(2);
+        if (error) {
+          console.log(error)
+          Bert.alert(error.reason, 'danger');
+        } else {
+          // Meteor.call('users.sendVerificationEmail');
+          Bert.alert('Welcome!', 'success');
+          this.props.history.push('/');
+        }
+      },
     );
   }
 
   render() {
     return (
-      <div className="Signup">
-        {this.renderForm()}
-      </div>
+      <StyledSignup>
+        <Row>
+          <h4 className="page-header">Sign Up</h4>
+          <Col xs={12}>
+          </Col>
+        </Row>
+        <Form onSubmit={this.handleSubmit}>
+          <Row>
+            <Col xs={6}>
+              <FormGroup>
+                <label>First Name</label>
+                <input
+                  type="text"
+                  name="firstName"
+                  className="form-control"
+                  placeholder="First Name"
+                  ref={this.firstName}
+                />
+              </FormGroup>
+            </Col>
+            <Col xs={6}>
+              <FormGroup>
+                <label>Last Name</label>
+                <input
+                  type="text"
+                  name="lastName"
+                  className="form-control"
+                  placeholder="Last Name"
+                  ref={this.lastName}
+                />
+              </FormGroup>
+            </Col>
+          </Row>
+          <FormGroup>
+            <label>Email Address</label>
+            <input
+              type="email"
+              name="emailAddress"
+              className="form-control"
+              placeholder="Email Address"
+              ref={this.email}
+            />
+          </FormGroup>
+          <FormGroup>
+            <label>Password</label>
+            <input
+              type="password"
+              name="password"
+              className="form-control"
+              placeholder="Password"
+              ref={this.password}
+            />
+          </FormGroup>
+          <FormGroup>
+            <label>Confirm Password</label>
+            <input
+              type="password"
+              name="password"
+              className="form-control"
+              placeholder="Password"
+              ref={this.confirmPassword}
+            />
+          </FormGroup>
+          <FormGroup>
+            <label>Phone Number</label>
+            <input
+              type="phoneNumber"
+              name="phoneNumber"
+              className="form-control"
+              placeholder="Phone Number"
+              ref={this.phoneNumber}
+            />
+          </FormGroup>
+          <Button type="submit" bsstyle="success" block>
+            Sign Up
+          </Button>
+        </Form>
+      </StyledSignup>
     );
   }
 }

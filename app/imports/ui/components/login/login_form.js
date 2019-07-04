@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import "./login.css";
 import LoaderButton from "../loader/LoaderButton"
+import { Meteor } from 'meteor/meteor';
+import { Bert } from 'meteor/themeteorchef:bert';
 
 
 export default class LoginForm extends Component {
@@ -26,7 +28,13 @@ export default class LoginForm extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-
+    Meteor.loginWithPassword(this.state.email, this.state.password, (error) => {
+      if (error) {
+        Bert.alert(error.reason, 'danger');
+      } else {
+        Bert.alert('Welcome back!', 'success');
+      }
+    });
   }
 
   render() {
