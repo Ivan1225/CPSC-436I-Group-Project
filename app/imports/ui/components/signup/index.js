@@ -75,7 +75,6 @@ class Signup extends Component {
         },
       },
       (error) => {
-        console.log(2);
         if (error) {
           console.log(error)
           Bert.alert(error.reason, 'danger');

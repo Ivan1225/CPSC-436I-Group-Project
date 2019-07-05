@@ -11,7 +11,11 @@ import AccountPageFooter from '../accountPageFooter';
 import Styles from './styles';
 
 class Profile extends React.Component {
-  state = { activeTab: 'profile' };
+  constructor(props) {
+    super(props);
+    this.state = { activeTab: 'profile' };
+    // this.form = React.createRef();
+  }
 
   getUserType = (user) => (user.oAuthProvider ? 'oauth' : 'password');
 
@@ -22,6 +26,40 @@ class Profile extends React.Component {
   };
 
   handleSubmit = (form) => {
+    Meteor.users.allow({
+      update: function (userId, doc, fields, modifier) {
+        console.log(123);
+        return !!userId;
+      }
+    });
+
+    try {
+      Meteor.users.update({_id: this.props.userId}, {
+        $set: {
+          email: form.emailAddress.value,
+          profile: {
+            name: {
+              first: form.firstName.value,
+              last: form.lastName.value,
+            },
+            phoneNumber: form.phoneNumber.value,
+          }
+        }
+      });
+    } catch (exception) {
+      throw new Error(`[updateUser] ${exception.message}`);
+    }
+
+    if (form.newPassword.value) {
+      Accounts.changePassword(form.currentPassword.value, form.newPassword.value, (error) => {
+        if (error) {
+          Bert.alert(error.reason, 'danger');
+        } else {
+          form.currentPassword.value = ''; // eslint-disable-line no-param-reassign
+          form.newPassword.value = ''; // eslint-disable-line no-param-reassign
+        }
+      });
+    }
     // this.props.updateUser({
     //   variables: {
     //     user: {
@@ -110,6 +148,15 @@ class Profile extends React.Component {
         />
       </FormGroup>
       <FormGroup>
+        <FormLabel>Phone Number</FormLabel>
+        <input
+          type="text"
+          name="phoneNumber"
+          defaultValue={user.profile.phoneNumber}
+          className="form-control"
+        />
+      </FormGroup>
+      <FormGroup>
         <FormLabel>Current Password</FormLabel>
         <input type="password" name="currentPassword" className="form-control" />
       </FormGroup>
@@ -124,7 +171,7 @@ class Profile extends React.Component {
     </div>
   );
 
-  renderProfileForm = (user) =>this.renderPasswordUser(user);
+  // renderProfileForm = (user) =>this.renderPasswordUser(user);
   // renderProfileForm = (user) =>
   //   user &&
   //   {
@@ -133,7 +180,7 @@ class Profile extends React.Component {
   //   }[this.getUserType(user)](user);
 
   render() {
-    console.log(this.props);
+    console.log(this);
     const { currentUser, updateUser } = this.props;
     return currentUser ? (
       <Styles.Profile>
@@ -197,10 +244,9 @@ class Profile extends React.Component {
                   submitHandler={(form) => this.handleSubmit(form)}
                 >
                   <form
-                    ref={(form) => (this.form = form)}
                     onSubmit={(event) => event.preventDefault()}
                   >
-                    {this.renderProfileForm(currentUser)}
+                    {this.renderPasswordUser(currentUser)}
                   </form>
                 </Validation>
                 <AccountPageFooter>

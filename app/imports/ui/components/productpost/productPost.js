@@ -34,17 +34,6 @@ class productPost extends Component {
     this.title= React.createRef();
     this.category= React.createRef();
     this.content= React.createRef();
-
-    this.state = {
-      firstName: "",
-      lastName: "",
-      phoneNumber: "",
-      address: "",
-      email: "",
-      title: "",
-      category: "",
-      content:""
-    };
   }
 
   validateForm() {
@@ -53,41 +42,35 @@ class productPost extends Component {
     );
   }
 
-  handleChange = event => {
-    this.setState({
-      [event.target.id]: event.target.value
-    });
-  }
-
   handleSubmit = async event => {
     event.preventDefault();
 
-    Accounts.createUser(
-      {  profile: {
-        name: {
-          first: this.firstName.current.value,
-          last: this.lastName.current.value,
-        },
-        phoneNumber: this.phoneNumber.current.value,
-      },
-        address: this.address.current.value,
-        email: this.email.current.value,
-        title:this.title.current.value,
-        category:this.category.current.value,
-        content:this.content.current.value
-      },
-      (error) => {
-        console.log(2);
-        if (error) {
-          console.log(error)
-          Bert.alert(error.reason, 'danger');
-        } else {
-          // Meteor.call('users.sendVerificationEmail');
-          Bert.alert('congratulations!', 'success');
-          this.props.history.push('/');
-        }
-      },
-    );
+  //   Accounts.createUser(
+  //     {  profile: {
+  //       name: {
+  //         first: this.firstName.current.value,
+  //         last: this.lastName.current.value,
+  //       },
+  //       phoneNumber: this.phoneNumber.current.value,
+  //     },
+  //       address: this.address.current.value,
+  //       email: this.email.current.value,
+  //       title:this.title.current.value,
+  //       category:this.category.current.value,
+  //       content:this.content.current.value
+  //     },
+  //     (error) => {
+  //       if (error) {
+  //         console.log(error)
+  //         Bert.alert(error.reason, 'danger');
+  //       } else {
+  //         // Meteor.call('users.sendVerificationEmail');
+  //         Bert.alert('congratulations!', 'success');
+  //         this.props.history.push('/');
+  //       }
+  //     },
+  //   );
+  // }
   }
 
   render() {

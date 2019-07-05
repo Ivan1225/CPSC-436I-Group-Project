@@ -7,9 +7,6 @@ import { updateUser } from '../../actions/user';
 function mapStateToProps(state, { match, history }) {
   const { users } = state.user;
 
-  console.log(users)
-  console.log(parseInt(match.params.id, 10))
-  console.log( users.find(u => u.id === parseInt(match.params.id, 10)))
   return {
     currentUser: users.find(u => u.id === parseInt(match.params.id, 10)),
   };

@@ -62,7 +62,6 @@ class Index extends Component {
   render() {
     const { props, state, setAfterLoginPath } = this;
     const visible = state.ready && !props.loading;
-    console.log(props);
     return (
       <Styles.App visible={visible}>
         <BrowserRouter>

@@ -1,6 +1,7 @@
-import { Accounts } from 'meteor/accounts-base';
+import { Meteor } from 'meteor/meteor';
 
-Accounts.config({
-  forbidClientAccountCreation: false,
-  sendVerificationEmail: true
+Meteor.users.allow({
+  update: function (userId, doc, fields, modifier) {
+    return true;
+  }
 });

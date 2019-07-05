@@ -12,6 +12,5 @@ Accounts.onCreateUser((options, user) => {
 
   // const settings = UserSettings.find().fetch();
   // userToCreate.settings = settings;
-  console.log(userToCreate);
   return userToCreate;
 });
