@@ -16,7 +16,7 @@ import LoginForm from '../login/login_form';
 import SignUp from '../signup';
 import IndexContent from '../_index_content';
 import Home from '../home'
-import Profile from '../profile/profile'
+import Profile from '../Profile'
 import Popup from '../newComponents/Popup';
 import AccountsUIWrapper from '../account_ui_wrapper';
 import productPost from '../productpost/productPost';
@@ -62,7 +62,7 @@ class Index extends Component {
   render() {
     const { props, state, setAfterLoginPath } = this;
     const visible = state.ready && !props.loading;
-
+    console.log(props);
     return (
       <Styles.App visible={visible}>
         <BrowserRouter>
@@ -80,14 +80,14 @@ class Index extends Component {
                   path="/productpost"
                   component={productPost}
                 />
-                {/* <Authenticated
+                <Authenticated
                   exact
                   path="/profile"
                   component={Profile}
                   setAfterLoginPath={setAfterLoginPath}
                   {...props}
                   {...state}
-                /> */}
+                />
                 <Public path="/signup" component={SignUp} {...props} {...state} />
                 <Public path="/login" component={LoginForm} {...props} {...state} />
                 <Route
@@ -120,11 +120,11 @@ export default withTrackerSsr(() => {
   const user = Meteor.user();
   const userId = Meteor.userId();
   const loading = !app.ready() && !Roles.subscription.ready();
-  console.log(1);
   const name = user && user.profile && user.profile.name && getUserName(user.profile.name);
   const emailAddress = user && user.emails && user.emails[0].address;
 
   return {
+    currentUser: user,
     loading,
     loggingIn,
     authenticated: !loggingIn && !!userId,

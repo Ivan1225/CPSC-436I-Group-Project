@@ -1,8 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { compose, graphql, withApollo } from 'react-apollo';
-import FileSaver from 'file-saver';
-import base64ToBlob from 'b64-to-blob';
 import { Row, Col, FormGroup, FormLabel, Button, Tabs, Tab } from 'react-bootstrap';
 import { capitalize } from 'lodash';
 import { Meteor } from 'meteor/meteor';
@@ -20,7 +17,7 @@ class Profile extends React.Component {
 
   handleDeleteAccount = () => {
     if (confirm('Are you sure? This will permanently delete your account and all of its data.')) {
-      this.props.removeUser();
+      // this.props.removeUser();
     }
   };
 
@@ -86,7 +83,7 @@ class Profile extends React.Component {
             <input
               type="text"
               name="firstName"
-              defaultValue={user.name.first}
+              defaultValue={user.profile.name.first}
               className="form-control"
             />
           </FormGroup>
@@ -97,7 +94,7 @@ class Profile extends React.Component {
             <input
               type="text"
               name="lastName"
-              defaultValue={user.name.last}
+              defaultValue={user.profile.name.last}
               className="form-control"
             />
           </FormGroup>
@@ -108,7 +105,7 @@ class Profile extends React.Component {
         <input
           type="email"
           name="emailAddress"
-          defaultValue={user.emailAddress}
+          defaultValue={user.emails[0].address}
           className="form-control"
         />
       </FormGroup>
@@ -121,28 +118,30 @@ class Profile extends React.Component {
         <input type="password" name="newPassword" className="form-control" />
         <InputHint>Use at least six characters.</InputHint>
       </FormGroup>
-      <Button type="submit" bsStyle="success">
+      <Button type="submit" bsstyle="success">
         Save Profile
       </Button>
     </div>
   );
 
-  renderProfileForm = (user) =>
-    user &&
-    {
-      password: this.renderPasswordUser,
-      oauth: this.renderOAuthUser,
-    }[this.getUserType(user)](user);
+  renderProfileForm = (user) =>this.renderPasswordUser(user);
+  // renderProfileForm = (user) =>
+  //   user &&
+  //   {
+  //     password: this.renderPasswordUser,
+  //     oauth: this.renderOAuthUser,
+  //   }[this.getUserType(user)](user);
 
   render() {
-    const { data, updateUser } = this.props;
-    return data.user ? (
+    console.log(this.props);
+    const { currentUser, updateUser } = this.props;
+    return currentUser ? (
       <Styles.Profile>
         <h4 className="page-header">
-          {data.user.name ? `${data.user.name.first} ${data.user.name.last}` : data.user.username}
+          {currentUser.profile.name ? `${currentUser.profile.name.first} ${currentUser.profile.name.last}` : currentUser.username}
         </h4>
         <Tabs
-          animation={false}
+          animation="false"
           activeKey={this.state.activeTab}
           onSelect={(activeTab) => this.setState({ activeTab })}
           id="admin-user-tabs"
@@ -201,29 +200,20 @@ class Profile extends React.Component {
                     ref={(form) => (this.form = form)}
                     onSubmit={(event) => event.preventDefault()}
                   >
-                    {this.renderProfileForm(data.user)}
+                    {this.renderProfileForm(currentUser)}
                   </form>
                 </Validation>
                 <AccountPageFooter>
-                  <p>
-                    <Button bsStyle="link" className="btn-export" onClick={this.handleExportData}>
-                      Export my data
-                    </Button>{' '}
-                    {'-'}
-                    Download all of your documents as .txt files in a .zip
-                  </p>
-                </AccountPageFooter>
-                <AccountPageFooter>
-                  <Button bsStyle="danger" onClick={this.handleDeleteAccount}>
+                  <Button bsstyle="danger" onClick={this.handleDeleteAccount}>
                     Delete My Account
                   </Button>
                 </AccountPageFooter>
               </Col>
             </Row>
           </Tab>
-          <Tab eventKey="settings" title="Settings">
+          {/* <Tab eventKey="settings" title="Settings">
             <UserSettings settings={data.user.settings} updateUser={updateUser} />
-          </Tab>
+          </Tab> */}
         </Tabs>
       </Styles.Profile>
     ) : (
@@ -233,35 +223,33 @@ class Profile extends React.Component {
 }
 
 Profile.propTypes = {
-  data: PropTypes.object.isRequired,
-  updateUser: PropTypes.func.isRequired,
-  removeUser: PropTypes.func.isRequired,
-  client: PropTypes.object.isRequired,
+  currentUser: PropTypes.object.isRequired,
 };
 
-export default compose(
-  graphql(userQuery),
-  graphql(updateUserMutation, {
-    name: 'updateUser',
-    options: () => ({
-      refetchQueries: [{ query: userQuery }],
-      onCompleted: () => {
-        Bert.alert('Profile updated!', 'success');
-      },
-      onError: (error) => {
-        Bert.alert(error.message, 'danger');
-      },
-    }),
-  }),
-  graphql(removeUserMutation, {
-    name: 'removeUser',
-    options: () => ({
-      onCompleted: () => {
-        Bert.alert('User removed!', 'success');
-      },
-      onError: (error) => {
-        Bert.alert(error.message, 'danger');
-      },
-    }),
-  }),
-)(withApollo(Profile));
+export default Profile;
+// export default compose(
+//   graphql(userQuery),
+//   graphql(updateUserMutation, {
+//     name: 'updateUser',
+//     options: () => ({
+//       refetchQueries: [{ query: userQuery }],
+//       onCompleted: () => {
+//         Bert.alert('Profile updated!', 'success');
+//       },
+//       onError: (error) => {
+//         Bert.alert(error.message, 'danger');
+//       },
+//     }),
+//   }),
+//   graphql(removeUserMutation, {
+//     name: 'removeUser',
+//     options: () => ({
+//       onCompleted: () => {
+//         Bert.alert('User removed!', 'success');
+//       },
+//       onError: (error) => {
+//         Bert.alert(error.message, 'danger');
+//       },
+//     }),
+//   }),
+// )(withApollo(Profile));
