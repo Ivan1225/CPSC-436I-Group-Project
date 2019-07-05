@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import { Button, FormGroup, FormControl, FormLabel } from "react-bootstrap";
 import "./login.css";
 import LoaderButton from "../loader/LoaderButton"
 import { Meteor } from 'meteor/meteor';
@@ -42,7 +42,7 @@ export default class LoginForm extends Component {
       <div className="Login">
         <form onSubmit={this.handleSubmit}>
           <FormGroup controlId="email" bssize="large">
-            <label>Email</label>
+            <FormLabel>Email</FormLabel>
             <FormControl
               autoFocus
               type="email"
@@ -51,7 +51,7 @@ export default class LoginForm extends Component {
             />
           </FormGroup>
           <FormGroup controlId="password" bssize="large">
-            <label>Password</label>
+            <FormLabel>Password</FormLabel>
             <FormControl
               value={this.state.password}
               onChange={this.handleChange}
