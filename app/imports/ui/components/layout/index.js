@@ -19,7 +19,7 @@ import Home from '../home'
 import Profile from '../Profile'
 import Popup from '../newComponents/Popup';
 import AccountsUIWrapper from '../account_ui_wrapper';
-import productPost from '../productpost/productPost';
+import PostForm from '../postForm';
 import Navigation from '../navigation';
 import Logout from '../logout';
 
@@ -39,10 +39,9 @@ class Index extends Component {
 
   state = { ready: false, afterLoginPath: null };
 
-  componentDidMount() {
+  componentDidMount () {
     this.setPageReady();
   }
-
   setPageReady = () => {
     this.setState({ ready: true });
   };
@@ -76,8 +75,8 @@ class Index extends Component {
                 />
                 <Route
                   exact
-                  path="/productpost"
-                  component={productPost}
+                  path="/post/new"
+                  component={PostForm}
                 />
                 <Authenticated
                   exact

@@ -30,9 +30,9 @@ export default class LoginForm extends Component {
     event.preventDefault();
     Meteor.loginWithPassword(this.state.email, this.state.password, (error) => {
       if (error) {
-        Bert.alert(error.reason, 'danger');
+        Bert.alert(error.reason, 'danger', 'growl-top-right');
       } else {
-        Bert.alert('Welcome back!', 'success');
+        Bert.alert('Welcome back!', 'success', 'growl-top-right');
       }
     });
   }

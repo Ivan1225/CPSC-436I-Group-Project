@@ -10,6 +10,7 @@ import LoaderButton from "../loader/LoaderButton";
 import { registerSuccessfullyHandler } from '../../actions/user';
 import StyledSignup from './styles';
 import { Accounts } from 'meteor/accounts-base';
+import { Bert } from 'meteor/themeteorchef:bert';
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -77,10 +78,10 @@ class Signup extends Component {
       (error) => {
         if (error) {
           console.log(error)
-          Bert.alert(error.reason, 'danger');
+          Bert.alert(error.reason, 'danger', 'growl-top-right');
         } else {
           // Meteor.call('users.sendVerificationEmail');
-          Bert.alert('Welcome!', 'success');
+          Bert.alert('Welcome!', 'success', 'growl-top-right');
           this.props.history.push('/');
         }
       },

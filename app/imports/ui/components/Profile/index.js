@@ -28,7 +28,6 @@ class Profile extends React.Component {
   handleSubmit = (form) => {
     Meteor.users.allow({
       update: function (userId, doc, fields, modifier) {
-        console.log(123);
         return !!userId;
       }
     });
@@ -46,6 +45,7 @@ class Profile extends React.Component {
           }
         }
       });
+      Bert.alert('Profile updated!', 'success', 'growl-top-right');
     } catch (exception) {
       throw new Error(`[updateUser] ${exception.message}`);
     }
@@ -53,7 +53,7 @@ class Profile extends React.Component {
     if (form.newPassword.value) {
       Accounts.changePassword(form.currentPassword.value, form.newPassword.value, (error) => {
         if (error) {
-          Bert.alert(error.reason, 'danger');
+          Bert.alert(error.reason, 'danger', 'growl-top-right');
         } else {
           form.currentPassword.value = ''; // eslint-disable-line no-param-reassign
           form.newPassword.value = ''; // eslint-disable-line no-param-reassign

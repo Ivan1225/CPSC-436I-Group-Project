@@ -8,9 +8,9 @@ import { Roles } from 'meteor/alanning:roles';
 const AuthenticatedNavigation = ({ name, history, userId }) => (
   <div>
     <Nav>
-      <LinkContainer to="/documents">
-        <NavItem eventkey={1} href="/documents">
-          Documents
+      <LinkContainer to="/post/new">
+        <NavItem eventkey={1} href="/post/new">
+          Post
         </NavItem>
       </LinkContainer>
       {Roles.userIsInRole(userId, 'admin') && (
