@@ -6,8 +6,7 @@ import { Accounts } from 'meteor/accounts-base';
 Accounts.onCreateUser((options, user) => {
   const userToCreate = user;
   if (options.profile) userToCreate.profile = options.profile;
-  // if (isOAuthUser({ user: userToCreate })) sendWelcomeEmail({ user: userToCreate }); // NOTE: Sent for OAuth accounts only here. Sent for password accounts after email verification (https://cleverbeagle.com/pup/v2/accounts/email-verification).
-
+  // if (isOAuthUser({ user: userToCreate })) sendWelcomeEmail({ user: userToCreate }); // NOTE: Sent for OAuth accounts only here. Sent for password accounts after email verification
   userToCreate.roles = ['user'];
 
   // const settings = UserSettings.find().fetch();
