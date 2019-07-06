@@ -8,6 +8,10 @@ const App = styled.div`
     padding-bottom: 20px;
   }
 
+  .Switch{
+    color: white;
+  }
+
   .verify-email {
     margin-bottom: 0;
     padding: 0;
@@ -18,7 +22,7 @@ const App = styled.div`
     border-radius: 0;
 
     p {
-      padding: 19px;
+      padding: 40px;
     }
 
     .btn {

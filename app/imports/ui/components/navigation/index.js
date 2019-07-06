@@ -6,6 +6,10 @@ import { Meteor } from 'meteor/meteor';
 import PublicNavigation from '../publicNavigation';
 import AuthenticatedNavigation from '../authenticatedNavigation';
 
+// import Styles from './styles';
+
+import './styles.css';
+
 const Navigation = (props) => (
   <Navbar collapseOnSelect>
     <Navbar.Brand>

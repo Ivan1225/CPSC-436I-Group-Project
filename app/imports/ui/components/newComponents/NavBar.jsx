@@ -12,7 +12,7 @@ class NavBar extends Component {
                 <div className="container">
                     <Link className="navbar-brand" to="/">
                        {/* <img src="../images/logo.jpg" width="30" height="30" alt=""/> */}
-                       wstore
+                       wsto
                     </Link>
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav ml-auto">

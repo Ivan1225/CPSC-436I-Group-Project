@@ -16,14 +16,26 @@ class Footer extends Component {
     render() {
         return (
             <footer className="footer">
-                <div className="container">
-                    <span className="text-muted">
+                
+                    {/* <span className="text-muted">
                         © 2019 Wstore, Inc. All rights reserved
                     </span>
+                    <div class="d-flex flex-row-reverse">
                     <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
                         Policy
                     </button>
-                </div>
+                    </div> */}
+
+                    <div class="d-flex">
+                    <div class="mr-auto p-2">© 2019 Wstore, Inc. All rights reserved</div>
+                    <div class="p-2">
+                    <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
+                        Policy
+                    </button>
+                    </div>
+                    <div class="p-2">    </div>
+</div>
+              
             </footer>
         );
     }
