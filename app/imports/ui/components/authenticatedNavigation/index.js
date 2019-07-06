@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Nav, NavItem, NavDropdown, DropdownItem } from 'react-bootstrap';
+import { Nav, NavItem, NavDropdown, Dropdown } from 'react-bootstrap';
 import { Roles } from 'meteor/alanning:roles';
 
 const AuthenticatedNavigation = ({ name, history, userId }) => (
@@ -28,17 +28,17 @@ const AuthenticatedNavigation = ({ name, history, userId }) => (
         </NavDropdown>
       )}
     </Nav>
-    <Nav pullright="true">
+    <Nav className="justify-content-end">
       <NavDropdown eventkey={2} title={name} data-test="user-nav-dropdown" id="user-nav-dropdown">
         <LinkContainer to="/profile">
           <NavItem eventkey={2.1} href="/profile">
             Profile
           </NavItem>
         </LinkContainer>
-        <DropdownItem divider="true" />
-        <DropdownItem eventkey={2.2} onClick={() => history.push('/logout')}>
+        <Dropdown.Divider />
+        <Dropdown.Item eventkey={2.2} onClick={() => history.push('/logout')}>
           Logout
-        </DropdownItem>
+        </Dropdown.Item>
       </NavDropdown>
     </Nav>
   </div>
