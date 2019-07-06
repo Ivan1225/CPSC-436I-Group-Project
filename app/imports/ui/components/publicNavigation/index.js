@@ -3,7 +3,12 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { Nav, NavItem } from 'react-bootstrap';
 
 const PublicNavigation = () => (
-  <Nav className="justify-content-end">
+  <Nav>
+     <LinkContainer to="/post/new">
+        <NavItem eventkey={1} href="/post/new">
+          Post
+        </NavItem>
+    </LinkContainer>
     <LinkContainer to="/signup">
       <NavItem eventkey={1} href="/signup">
         Sign Up

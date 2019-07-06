@@ -27,8 +27,6 @@ const AuthenticatedNavigation = ({ name, history, userId }) => (
           </LinkContainer>
         </NavDropdown>
       )}
-    </Nav>
-    <Nav className="justify-content-end">
       <NavDropdown eventkey={2} title={name} data-test="user-nav-dropdown" id="user-nav-dropdown">
         <LinkContainer to="/profile">
           <NavItem eventkey={2.1} href="/profile">

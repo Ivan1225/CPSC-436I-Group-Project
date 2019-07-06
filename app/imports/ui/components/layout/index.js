@@ -66,7 +66,7 @@ class Index extends Component {
         <BrowserRouter>
           <div>
             <Navigation {...props} {...state} />
-            <Container>
+            <div className="container">
               <Switch>
                 <Route
                   exact
@@ -104,7 +104,7 @@ class Index extends Component {
               </Switch>
 
               <Popup />
-            </Container>
+            </div>
           </div>
         </BrowserRouter>
       </Styles.App>

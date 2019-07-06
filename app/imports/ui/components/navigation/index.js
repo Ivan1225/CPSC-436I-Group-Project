@@ -12,7 +12,7 @@ const Navigation = (props) => (
         <Link to="/">Wstore</Link>
     </Navbar.Brand>
     <Navbar.Toggle />
-    <Navbar.Collapse>
+    <Navbar.Collapse className="justify-content-end">
       {!props.authenticated ? <PublicNavigation /> : <AuthenticatedNavigation {...props} />}
     </Navbar.Collapse>
   </Navbar>
