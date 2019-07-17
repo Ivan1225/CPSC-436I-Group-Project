@@ -3,12 +3,14 @@ import PropTypes from 'prop-types';
 import { Row, Col, FormGroup, FormLabel, Button, Tabs, Tab } from 'react-bootstrap';
 import { capitalize } from 'lodash';
 import { Meteor } from 'meteor/meteor';
+import { withTracker } from 'meteor/react-meteor-data';
 import { Accounts } from 'meteor/accounts-base';
 import { Bert } from 'meteor/themeteorchef:bert';
 import Validation from '../validation/validation';
 import InputHint from '../inputHint';
 import AccountPageFooter from '../accountPageFooter';
 import Styles from './styles';
+import getUserProfile from '../../../../modules/getUserProfile';
 
 class Profile extends React.Component {
   constructor(props) {
@@ -21,69 +23,48 @@ class Profile extends React.Component {
 
   handleDeleteAccount = () => {
     if (confirm('Are you sure? This will permanently delete your account and all of its data.')) {
-      // this.props.removeUser();
+      Meteor.call('users.deleteAccount', (error) => {
+        if (error) {
+          Bert.alert(error.reason, 'danger', 'growl-top-right');
+        } else {
+          Bert.alert('Account deleted!', 'success', 'growl-top-right');
+        }
+      });
     }
   };
 
   handleSubmit = (form) => {
-    Meteor.users.allow({
-      update: function (userId, doc, fields, modifier) {
-        return !!userId;
+    const profile = {
+      emailAddress: form.emailAddress.value,
+      profile: {
+        name: {
+          first: form.firstName.value,
+          last: form.lastName.value,
+        },
+        phoneNumber: form.phoneNumber.value,
+      },
+    };
+
+    console.log(profile);
+    Meteor.call('users.editProfile', profile, (error) => {
+      console.log(error)
+      if (error) {
+        Bert.alert(error.reason, 'danger', 'growl-top-right');
+      } else {
+        Bert.alert('Profile updated!', 'success', 'growl-top-right');
       }
     });
-
-    try {
-      Meteor.users.update({_id: this.props.userId}, {
-        $set: {
-          email: form.emailAddress.value,
-          profile: {
-            name: {
-              first: form.firstName.value,
-              last: form.lastName.value,
-            },
-            phoneNumber: form.phoneNumber.value,
-          }
-        }
-      });
-      Bert.alert('Profile updated!', 'success', 'growl-top-right');
-    } catch (exception) {
-      throw new Error(`[updateUser] ${exception.message}`);
-    }
 
     if (form.newPassword.value) {
       Accounts.changePassword(form.currentPassword.value, form.newPassword.value, (error) => {
         if (error) {
-          Bert.alert(error.reason, 'danger', 'growl-top-right');
+          Bert.alert(error.reason, 'danger');
         } else {
           form.currentPassword.value = ''; // eslint-disable-line no-param-reassign
           form.newPassword.value = ''; // eslint-disable-line no-param-reassign
         }
       });
     }
-    // this.props.updateUser({
-    //   variables: {
-    //     user: {
-    //       email: form.emailAddress.value,
-    //       profile: {
-    //         name: {
-    //           first: form.firstName.value,
-    //           last: form.lastName.value,
-    //         },
-    //       },
-    //     },
-    //   },
-    // });
-
-    // if (form.newPassword.value) {
-    //   Accounts.changePassword(form.currentPassword.value, form.newPassword.value, (error) => {
-    //     if (error) {
-    //       Bert.alert(error.reason, 'danger');
-    //     } else {
-    //       form.currentPassword.value = ''; // eslint-disable-line no-param-reassign
-    //       form.newPassword.value = ''; // eslint-disable-line no-param-reassign
-    //     }
-    //   });
-    // }
   };
 
   renderOAuthUser = (user) => (
@@ -180,7 +161,6 @@ class Profile extends React.Component {
   //   }[this.getUserType(user)](user);
 
   render() {
-    console.log(this);
     const { currentUser, updateUser } = this.props;
     return currentUser ? (
       <Styles.Profile>
@@ -210,7 +190,6 @@ class Profile extends React.Component {
                     },
                     currentPassword: {
                       required: (form, blah) => {
-                        console.log(form, blah);
                         // Only required if newPassword field has a value.
                         return document.querySelector('[name="newPassword"]').value.length > 0;
                       },
@@ -269,33 +248,15 @@ class Profile extends React.Component {
 }
 
 Profile.propTypes = {
+  loading: PropTypes.bool.isRequired,
   currentUser: PropTypes.object.isRequired,
 };
 
-export default Profile;
-// export default compose(
-//   graphql(userQuery),
-//   graphql(updateUserMutation, {
-//     name: 'updateUser',
-//     options: () => ({
-//       refetchQueries: [{ query: userQuery }],
-//       onCompleted: () => {
-//         Bert.alert('Profile updated!', 'success');
-//       },
-//       onError: (error) => {
-//         Bert.alert(error.message, 'danger');
-//       },
-//     }),
-//   }),
-//   graphql(removeUserMutation, {
-//     name: 'removeUser',
-//     options: () => ({
-//       onCompleted: () => {
-//         Bert.alert('User removed!', 'success');
-//       },
-//       onError: (error) => {
-//         Bert.alert(error.message, 'danger');
-//       },
-//     }),
-//   }),
-// )(withApollo(Profile));
+export default withTracker(() => {
+  const subscription = Meteor.subscribe('users.editProfile');
+
+  return {
+    loading: !subscription.ready(),
+    user: getUserProfile(Meteor.users.findOne({ _id: Meteor.userId() })),
+  };
+})(Profile);

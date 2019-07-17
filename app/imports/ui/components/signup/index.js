@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Base64 from 'base-64';
 import { connect } from 'react-redux';
 import { Form, Row, Col, FormGroup, FormLabel, Button } from 'react-bootstrap';
 import {
@@ -66,7 +65,7 @@ class Signup extends Component {
     Accounts.createUser(
       {
         email: this.email.current.value,
-        password: Base64.encode(this.password.current.value),
+        password: this.password.current.value,
         profile: {
           name: {
             first: this.firstName.current.value,
@@ -77,7 +76,6 @@ class Signup extends Component {
       },
       (error) => {
         if (error) {
-          console.log(error)
           Bert.alert(error.reason, 'danger', 'growl-top-right');
         } else {
           // Meteor.call('users.sendVerificationEmail');

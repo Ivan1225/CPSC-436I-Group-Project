@@ -7,6 +7,8 @@ import '../imports/startup/accounts-config.js';
 import Index from "../imports/ui/components/layout/index";
 import configureStore from "../imports/ui/store/configure_store";
 
+import '../imports/api/Posts/methods';
+
 const store = configureStore();
 
 Meteor.startup(() => {
