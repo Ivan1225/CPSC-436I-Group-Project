@@ -11,6 +11,9 @@ const StyledSignup = styled.div`
     margin-top: 0;
   }
 
+  .fr-toolbar.fr-top {
+    z-index: 0;
+  }
   > .row {
     margin: 0 !important;
   }
@@ -18,11 +21,6 @@ const StyledSignup = styled.div`
   button[type='submit'] {
     height: 41px;
     margin-top: 20px;
-  }
-
-  @media screen and (min-width: 768px) {
-    margin-top: 0px;
-    padding: 40px 25px;
   }
 `;
 

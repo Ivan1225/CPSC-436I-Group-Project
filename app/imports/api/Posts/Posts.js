@@ -1,6 +1,6 @@
-import mongoose from 'mongoose';
+import { Mongo } from 'meteor/mongo';
 import validator from 'validator';
-const Schema = mongoose.Schema;
+import SimpleSchema from 'simpl-schema';
 
 const Posts = new Mongo.Collection('Posts');
 
@@ -16,32 +16,37 @@ Posts.deny({
   remove: () => true,
 });
 
-const PostsSchema = new Schema(
-  {
-    owner: Number,
-    ownerName: String,
-    category: {
-      type: String,
-      enum: ['Service', 'Sale', 'Housing'],
-    },
-    title: {
-      type: String,
-      required: [true, 'You need a title for your post'],
-    },
-    email:{
-      type:String,
-      validate:{
-        validator: validator.isEmail,
-        message: '{VALUE} is not a valid email',
-        isAsync: false
-      }
-    },
-    phoneNumber: Number,
-    description: String,
+Posts.schema = new SimpleSchema({
+  // owner: Number,
+  ownerName: String,
+  category: {
+    type: String,
+    allowedValues: ['service', 'sale', 'housing'],
   },
-  {
-    timestamps: true,
-  }
-);
+  title: {
+    type: String,
+    required: [true, 'You need a title for your post'],
+  },
+  email: String,
+  city: {
+    type: String,
+    allowedValues: ['vancouver', 'surrey', 'burnaby', 'richmond', 'coquitlam', 'langley', 'delta', 'north_vancouver', 'maple_ridge', 'new_westminster', 'port_coquitlam', 'west_vancouver', 'port_moody', 'white_rock', 'pitt_meadows', 'tsawwassen']
+  },
+  phoneNumber: Number,
+  description: String,
+  createdAt: {
+    type: String,
+    autoValue() {
+      if (this.isInsert) return new Date().toISOString();
+    },
+  },
+  updatedAt: {
+    type: String,
+    autoValue() {
+      if (this.isInsert || this.isUpdate) return new Date().toISOString();
+    },
+  },
+});
 
-module.exports = mongoose.model("Posts", PostsSchema)
+Posts.attachSchema(Posts.schema);
+export default Posts;

@@ -15,35 +15,47 @@ Meteor.methods({
       handleMethodException(exception);
     }
   },
-  'posts.insert': function postsInsert(doc) {
-    check(doc, {
+  'posts.insert': function postsInsert(post) {
+    console.log(post);
+    check(post, {
+      ownerName: String,
+      phoneNumber: String,
+      email: String,
+      city: String,
+      category: String,
+      description: String,
       title: String,
-      body: String,
     });
 
     try {
-      return Posts.insert({ owner: this.userId, ...doc });
+      console.log(post);
+      return Posts.insert({ ...post });
     } catch (exception) {
+      console.log(exception);
       handleMethodException(exception);
     }
   },
-  'posts.update': function postsUpdate(doc) {
-    check(doc, {
+  'posts.update': function postsUpdate(post) {
+    check(post, {
       _id: String,
-      title: String,
-      body: String,
+      ownerName: String,
+      phoneNumber: String,
+      email: String,
+      city: String,
+      category: String,
+      description: String,
     });
 
     try {
-      const postId = doc._id;
+      const postId = post._id;
       const postToUpdate = Posts.findOne(postId, { fields: { owner: 1 } });
 
       if (postToUpdate.owner === this.userId) {
-        Posts.update(postId, { $set: doc });
+        Posts.update(postId, { $set: post });
         return postId; // Return _id so we can redirect to post after update.
       }
 
-      throw new Meteor.Error('403', "Sorry, pup. You're not allowed to edit this post.");
+      throw new Meteor.Error('403', "Sorry. You're not allowed to edit this post.");
     } catch (exception) {
       handleMethodException(exception);
     }
@@ -58,7 +70,7 @@ Meteor.methods({
         return Posts.remove(postId);
       }
 
-      throw new Meteor.Error('403', "Sorry, pup. You're not allowed to delete this post.");
+      throw new Meteor.Error('403', "Sorry. You're not allowed to delete this post.");
     } catch (exception) {
       handleMethodException(exception);
     }
