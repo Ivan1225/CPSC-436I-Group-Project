@@ -3,7 +3,7 @@ import { check } from 'meteor/check';
 import Posts from '../Posts';
 
 Meteor.publish('posts', function posts() {
-  return Posts.find({ owner: this.userId });
+  return Posts.find();
 });
 
 // Note: Posts.view is also used when editing an existing document.

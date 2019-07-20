@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import './Jumbotron.css';
+import { Link } from 'react-router-dom';
 
 
 function mapStateToProps(state) {
@@ -25,7 +26,12 @@ class Jumbotron extends Component {
                 <hr className="my-4" />
                 <p>{this.props.subIntro}</p>
                 <p className="lead">
-                    <a className="btn btn-primary btn-lg" href="#" role="button">Explore</a>
+                    <Link
+                        className="btn btn-primary btn-lg"
+                        to="/posts"
+                    >
+                        Explore
+                    </Link>
                 </p>
             </div>
         );

@@ -22,6 +22,7 @@ import AccountsUIWrapper from '../account_ui_wrapper';
 import PostForm from '../postForm';
 import Navigation from '../navigation';
 import Logout from '../logout';
+import Posts from '../posts';
 
 import withTrackerSsr from '../../../../modules/withTrackerSsr';
 import getUserName from '../../../../modules/getUserName';
@@ -88,6 +89,7 @@ class Index extends Component {
                 />
                 <Public path="/signup" component={SignUp} {...props} {...state} />
                 <Public path="/login" component={LoginForm} {...props} {...state} />
+                <Public path="/posts" component={Posts} {...props} {...state} />
                 <Route
                   path="/logout"
                   render={(routeProps) => (

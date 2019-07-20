@@ -119,7 +119,7 @@ class PostForm extends Component {
         const confirmation = existingPost ? 'Post updated!' : 'Post added!';
         this.form.reset();
         Bert.alert(confirmation, 'success');
-        // history.push(`/posts/${postId}`);
+        history.push("/posts");
       }
     });
   };
