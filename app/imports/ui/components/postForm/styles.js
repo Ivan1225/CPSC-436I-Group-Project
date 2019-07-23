@@ -22,6 +22,12 @@ const StyledSignup = styled.div`
     height: 41px;
     margin-top: 20px;
   }
+
+  .dropzone {
+    width  : 100%;
+    height : 20%;
+    border : 1px solid black;
+  }
 `;
 
 export default StyledSignup;

@@ -10,6 +10,7 @@ import Select from 'react-select';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import validate from '../../../../modules/validate';
 import _ from 'lodash';
+import Dropzone from 'react-dropzone'
 
 const category = [
   { label: 'Sale', value: 'sale' },
@@ -17,22 +18,22 @@ const category = [
   { label: 'Housing', value: 'housing' },
 ];
 const city = [
-  { label : 'Vancouver', value: 'vancouver'},
-  { label : 'Surrey', value: 'surrey'},
-  { label : 'Burnaby', value: 'burnaby'},
-  { label : 'Richmond', value: 'richmond'},
-  { label : 'Coquitlam', value: 'coquitlam'},
-  { label : 'Langley', value: 'langley'},
-  { label : 'Delta', value: 'delta'},
-  { label : 'North Vancouver', value: 'north_vancouver'},
-  { label : 'Maple Ridge', value: 'maple_ridge'},
-  { label : 'New Nestminster', value: 'new_westminster'},
-  { label : 'Port Coquitlam', value: 'port_coquitlam'},
-  { label : 'West Vancouver', value: 'west_vancouver'},
-  { label : 'Port Moody', value: 'port_moody'},
-  { label : 'White Rock', value: 'white_rock'},
-  { label : 'Pitt Meadows', value: 'pitt_meadows'},
-  { label : 'Tsawwassen', value: 'tsawwassen'},
+  { label: 'Vancouver', value: 'vancouver' },
+  { label: 'Surrey', value: 'surrey' },
+  { label: 'Burnaby', value: 'burnaby' },
+  { label: 'Richmond', value: 'richmond' },
+  { label: 'Coquitlam', value: 'coquitlam' },
+  { label: 'Langley', value: 'langley' },
+  { label: 'Delta', value: 'delta' },
+  { label: 'North Vancouver', value: 'north_vancouver' },
+  { label: 'Maple Ridge', value: 'maple_ridge' },
+  { label: 'New Nestminster', value: 'new_westminster' },
+  { label: 'Port Coquitlam', value: 'port_coquitlam' },
+  { label: 'West Vancouver', value: 'west_vancouver' },
+  { label: 'Port Moody', value: 'port_moody' },
+  { label: 'White Rock', value: 'white_rock' },
+  { label: 'Pitt Meadows', value: 'pitt_meadows' },
+  { label: 'Tsawwassen', value: 'tsawwassen' },
 ]
 class PostForm extends Component {
   static propTypes = {
@@ -44,11 +45,13 @@ class PostForm extends Component {
     post: { name: '', phoneNumber: '', email: '', city: '', title: '', description: '', category: '' },
   };
 
-  constructor (props) {
+  constructor(props) {
     super(props);
 
     this.state = {
       model: this.props.description,
+      files: [],
+      fileName: '',
     };
   }
 
@@ -95,6 +98,23 @@ class PostForm extends Component {
     });
   }
 
+  handleOnDrop = (files) => {
+    const reader = new FileReader();
+    const file = first(files);
+
+    reader.readAsDataURL(file);
+    reader.onload = ({
+      target: { result: imagePath },
+    }) => {
+      this.setState({ imagePath });
+    };
+
+    this.setState({
+      files,
+      fileName: file.name,
+    });
+  }
+
   handleSubmit = (form) => {
     const { history } = this.props;
     const existingPost = this.props.post && this.props.post._id;
@@ -125,6 +145,7 @@ class PostForm extends Component {
   };
   render() {
     const { post } = this.props;
+
     return (
       <Style>
         <Form ref={(form) => (this.form = form)} onSubmit={(event) => event.preventDefault()}>
@@ -192,16 +213,25 @@ class PostForm extends Component {
               tag='textarea'
               name="description"
               model={this.state.model}
-			        onModelChange={this.handleModelChange}
+              onModelChange={this.handleModelChange}
             />
           </Form.Group>
-          <Button>Add Photo</Button>
+          <Dropzone onDrop={acceptedFiles => console.log(acceptedFiles)}>
+            {({ getRootProps, getInputProps }) => (
+              <section className="dropzone">
+                <div {...getRootProps()}>
+                  <input {...getInputProps()} />
+                  <p>Drag 'n' drop some files here, or click to select files</p>
+                </div>
+              </section>
+            )}
+          </Dropzone>
           <Form.Group id='formGridCheckbox'>
             <Form.Check type='checkbox' label='Agree with our rules' />
           </Form.Group>
           <Button type="submit" bsstyle="success">
-          {post && post._id ? 'Save Changes' : 'Add Post'}
-        </Button>
+            {post && post._id ? 'Save Changes' : 'Add Post'}
+          </Button>
         </Form>
       </Style>
     );
