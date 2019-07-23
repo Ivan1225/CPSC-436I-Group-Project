@@ -4,8 +4,8 @@ A web app for merchants and buyers.
 
 ### Project Introduction
 
-- This project is build a platform for the local merchant to post their product or service and let the the custumers to seclect product or service based on their loaction.
-- The project realize the function as add, edit and delte product or service while we could manage the merchant or customers information at the same time.
+- Wstore is contributing to build a local sale web application with better UI.
+- Wstore is a easy web app for users to post or view sales, housing or service.
 
 ### Project Description
 
