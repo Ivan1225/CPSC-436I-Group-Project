@@ -1,8 +1,0 @@
-{
-  "s3": {
-    "key": "AKIAQYZQR72MN6UOFEH7",
-    "secret": "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",
-    "bucket": "wstore-app",
-    "region": "us-west-2"
-  }
-}
