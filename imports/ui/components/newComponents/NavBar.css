@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css?family=Amatic+SC&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+
+.navbar-brand{
+    color: #201f1f;
+    font-size: 400%;
+    font-family: 'Amatic SC', cursive;
+    
+}
+
+.nav-link{
+    color: #1d1c1c;
+    font-size: 130%;
+    letter-spacing: 3px;
+    /* font-family: 'Amatic SC', cursive; */
+    font-family: 'Montserrat', sans-serif;
+}
+
+.dropdown-menu{
+    color: #1d1c1c;
+    font-size: 70%;
+    letter-spacing: 3px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+a{
+    color: #ece3e3;
+    font-size: 200%;
+    
+}
+
+.navbar-custom {
+    color: rgb(39, 38, 38);
+    background-color: rgb(255, 255, 255);
+}

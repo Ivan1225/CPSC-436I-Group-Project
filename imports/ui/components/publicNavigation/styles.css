@@ -1,0 +1,14 @@
+/* .navbar-nav{
+    padding-left:30px;
+    padding-right:30px;
+    padding: 30px;
+    margin: 20px;
+
+  } */
+
+  @import url('https://fonts.googleapis.com/css?family=Amatic+SC&display=swap');  
+  .navbar-nav{
+    color: #201f1f;
+    font-size: 200%;
+    font-family: 'Amatic SC', cursive;
+  } 
