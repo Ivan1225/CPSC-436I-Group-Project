@@ -32,7 +32,6 @@
     "react-select": "^3.0.4",
     "redux": "^4.0.1",
     "redux-combine-actions": "^0.1.2",
-    "redux-form": "^8.2.4",
     "redux-thunk": "^2.3.0",
     "simpl-schema": "^1.5.5",
     "stream": "0.0.2",
