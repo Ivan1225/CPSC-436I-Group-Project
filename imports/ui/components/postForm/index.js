@@ -215,7 +215,7 @@ class PostForm extends Component {
               model={this.state.model}
               onModelChange={this.handleModelChange}
               config={{
-                key: "1becwkF-11B2A-9mnE2hdplopgwxB9ida==", // Pass your key here
+                key: "2J1B10dC4F5E4F4D3C3cwrvlvg1C3fxyD8ciC-9adepbcD2vyzdF3H3A8D6D4F4D4E3E2A16==", // Pass your key here
                 placeholder: "Edit Me",
                 charCounterCount: false,
                 events: {
