@@ -214,6 +214,19 @@ class PostForm extends Component {
               name="description"
               model={this.state.model}
               onModelChange={this.handleModelChange}
+              config={{
+                key: "1becwkF-11B2A-9mnE2hdplopgwxB9ida==", // Pass your key here
+                placeholder: "Edit Me",
+                charCounterCount: false,
+                events: {
+                  'froalaEditor.image.beforeUpload': (e, editor, images) => {
+                    setTargetImage(images[0])
+                  },
+                  'froalaEditor.image.inserted': (e, editor, response) => {
+                    uploadImageForEditor(response[0])
+                  }
+                }
+              }}
             />
           </Form.Group>
           <Dropzone onDrop={acceptedFiles => console.log(acceptedFiles)}>
