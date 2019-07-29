@@ -46,6 +46,10 @@ Posts.schema = new SimpleSchema({
       if (this.isInsert || this.isUpdate) return new Date().toISOString();
     },
   },
+  image: {
+    type: String,
+    label: "Image",
+  },
 });
 
 Posts.attachSchema(Posts.schema);

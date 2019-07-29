@@ -7,8 +7,8 @@ import './styles.css';
 const PublicNavigation = () => (
   <Nav>
     <div className="d-flex flex-row-reverse">
-     <LinkContainer to="/post/new">
-        <NavItem eventkey={1} href="/post/new">
+     <LinkContainer to="/posts/new">
+        <NavItem eventkey={1} href="/posts/new">
         <div className="p-2">post</div>
         </NavItem>
     </LinkContainer>

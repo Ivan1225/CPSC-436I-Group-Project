@@ -16,7 +16,6 @@ Meteor.methods({
     }
   },
   'posts.insert': function postsInsert(post) {
-    console.log(post);
     check(post, {
       ownerName: String,
       phoneNumber: String,
@@ -25,10 +24,10 @@ Meteor.methods({
       category: String,
       description: String,
       title: String,
+      image: String,
     });
 
     try {
-      console.log(post);
       return Posts.insert({ ...post });
     } catch (exception) {
       console.log(exception);

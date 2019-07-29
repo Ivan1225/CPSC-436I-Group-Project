@@ -11,6 +11,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import validate from '../../../../modules/validate';
 import _ from 'lodash';
 import Dropzone from 'react-dropzone'
+// import Slingshot from 'meteor/edgee:slingshot';
+
+var uploader = new Slingshot.Upload("myFileUploads");
 
 const category = [
   { label: 'Sale', value: 'sale' },
@@ -100,7 +103,7 @@ class PostForm extends Component {
 
   handleOnDrop = (files) => {
     const reader = new FileReader();
-    const file = first(files);
+    const file = files[0];
 
     reader.readAsDataURL(file);
     reader.onload = ({
@@ -116,9 +119,11 @@ class PostForm extends Component {
   }
 
   handleSubmit = (form) => {
+    let imageUrl;
     const { history } = this.props;
     const existingPost = this.props.post && this.props.post._id;
     const methodToCall = existingPost ? 'posts.update' : 'posts.insert';
+    const formRef = this.form;
     const post = {
       ownerName: form.name.value.trim(),
       phoneNumber: form.phoneNumber.value.trim(),
@@ -127,19 +132,28 @@ class PostForm extends Component {
       category: form.category.value.trim(),
       title: form.title.value.trim(),
       description: this.state.model,
+      image: imageUrl,
     };
 
     if (existingPost) post._id = existingPost;
 
-    Meteor.call(methodToCall, post, (error, res) => {
-      console.log(error)
+    uploader.send(this.state.files[0], function (error, downloadUrl) {
       if (error) {
-        Bert.alert(error.reason, 'danger');
-      } else {
-        const confirmation = existingPost ? 'Post updated!' : 'Post added!';
-        this.form.reset();
-        Bert.alert(confirmation, 'success');
-        history.push("/posts");
+        // Log service detailed response.
+        console.error('Error uploading');
+        alert(error);
+      }
+      else {
+        Meteor.call(methodToCall, {...post, image: downloadUrl}, (error, res) => {
+          if (error) {
+            Bert.alert(error.reason, 'danger');
+          } else {
+            const confirmation = existingPost ? 'Post updated!' : 'Post added!';
+            formRef.reset();
+            Bert.alert(confirmation, 'success');
+            history.push("/posts");
+          }
+        });
       }
     });
   };
@@ -229,7 +243,7 @@ class PostForm extends Component {
               }}
             />
           </Form.Group>
-          <Dropzone onDrop={acceptedFiles => console.log(acceptedFiles)}>
+          <Dropzone onDrop={acceptedFiles => this.handleOnDrop(acceptedFiles)}>
             {({ getRootProps, getInputProps }) => (
               <section className="dropzone">
                 <div {...getRootProps()}>

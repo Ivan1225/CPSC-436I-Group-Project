@@ -45,7 +45,6 @@ class Profile extends React.Component {
       },
     };
 
-    console.log(profile);
     Meteor.call('users.editProfile', profile, (error) => {
       console.log(error)
       if (error) {

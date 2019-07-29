@@ -17,7 +17,6 @@ Meteor.methods({
         phoneNumber: String,
       },
     });
-    console.log(profile);
 
     return editProfile({ userId: this.userId, profile })
       .then((response) => response)

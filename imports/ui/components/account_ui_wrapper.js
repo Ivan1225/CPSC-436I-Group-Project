@@ -5,8 +5,6 @@ import { Blaze } from 'meteor/blaze';
 
 export default class AccountsUIWrapper extends Component {
   componentDidMount() {
-    console.table(Template.atForm)
-    console.table(Template)
     // Use Meteor Blaze to render login buttons
     this.view = Blaze.render(
       Template.atForm,
