@@ -76,7 +76,7 @@ class Index extends Component {
                 />
                 <Route
                   exact
-                  path="/post/new"
+                  path="/posts/new"
                   component={PostForm}
                 />
                 <Authenticated
