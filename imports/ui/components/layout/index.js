@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Meteor } from 'meteor/meteor';
 import { Roles } from 'meteor/alanning:roles';
 import { Container } from 'react-bootstrap';
-
+import postsCollection from '../../../api/Posts/Posts';
 
 import Authenticated from '../../components/authenticated';
 import Authorized from '../authorized';
@@ -23,6 +23,7 @@ import PostForm from '../postForm';
 import Navigation from '../navigation';
 import Logout from '../logout';
 import Posts from '../posts';
+import PostDetails from '../postDetails';
 
 import withTrackerSsr from '../../../../modules/withTrackerSsr';
 import getUserName from '../../../../modules/getUserName';
@@ -89,7 +90,8 @@ class Index extends Component {
                 />
                 <Public path="/signup" component={SignUp} {...props} {...state} />
                 <Public path="/login" component={LoginForm} {...props} {...state} />
-                <Public path="/posts" component={Posts} {...props} {...state} />
+                <Public exact path="/posts" component={Posts} {...props} {...state} />
+                <Public exact path="/posts/:id/view" component={PostDetails} {...props} {...state} />
                 <Route
                   path="/logout"
                   render={(routeProps) => (
@@ -122,10 +124,12 @@ export default withTrackerSsr(() => {
   const loading = !app.ready() && !Roles.subscription.ready();
   const name = user && user.profile && user.profile.name && getUserName(user.profile.name);
   const emailAddress = user && user.emails && user.emails[0].address;
+  const subscription = Meteor.subscribe('posts');
 
   return {
     currentUser: user,
     loading,
+    postsLoading: !subscription.ready(),
     loggingIn,
     authenticated: !loggingIn && !!userId,
     name: name || emailAddress,
@@ -133,5 +137,6 @@ export default withTrackerSsr(() => {
     userId,
     emailAddress,
     emailVerified: user && user.emails ? user.emails[0] && user.emails[0].verified : true,
+    posts: postsCollection.find().fetch(),
   };
 })(Index);
