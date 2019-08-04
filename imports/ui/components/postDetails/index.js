@@ -1,23 +1,34 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 
 class PostDetails extends Component {
   static propTypes = {
-    posts: PropTypes.array.isRequired,
-    match: PropTypes.object.isRequired,
+    post: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
-    postsLoading: PropTypes.bool.isRequired,
-    loggingIn: PropTypes.bool.isRequired,
-    userId: PropTypes.number,
+    authenticated: PropTypes.bool.isRequired,
   };
 
   render() {
     console.log(this.props);
-    return (
-      <div>
+    const {
+      authenticated,
+      post,
+    }  = this.props;
 
-      </div>
+    return (
+        <div>
+          <img src={post.image}/>
+          {post.category}
+          {post.city}
+          {post.description}
+          {post.email}
+          {post.title}
+          {post.ownerName}
+          {post.phoneNumber}
+        </div>
     );
+
   }
 }
 

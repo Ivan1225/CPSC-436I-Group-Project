@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Style from './styles';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { Card, Image } from 'semantic-ui-react';
+import { Card, Image, Icon } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom'
 
 
@@ -39,6 +39,12 @@ class Post extends Component {
         <Card.Description>
           {post.description.replace(/<\/?[^>]+(>|$)/g, "")}
         </Card.Description>
+        <Card.Content extra>
+          <a>
+            <Icon name='time' />
+            {lastUpdateTime}
+          </a>
+        </Card.Content>
       </Card>
     );
   }

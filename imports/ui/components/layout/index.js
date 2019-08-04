@@ -13,7 +13,7 @@ import Public from '../../components/public';
 
 import NavBar from '../newComponents/NavBar.jsx'
 import LoginForm from '../login/login_form';
-import SignUp from '../signup';
+import Signup from '../signup';
 import IndexContent from '../_index_content';
 import Home from '../home'
 import Profile from '../Profile'
@@ -24,6 +24,7 @@ import Navigation from '../navigation';
 import Logout from '../logout';
 import Posts from '../posts';
 import PostDetails from '../postDetails';
+import AnimatedLoader from '../animated_loader';
 
 import withTrackerSsr from '../../../../modules/withTrackerSsr';
 import getUserName from '../../../../modules/getUserName';
@@ -37,19 +38,17 @@ class Index extends Component {
     emailAddress: PropTypes.string,
     emailVerified: PropTypes.bool,
     authenticated: PropTypes.bool,
+    postsLoading: PropTypes.bool,
+    posts: PropTypes.array,
   };
 
   state = { ready: false, afterLoginPath: null };
 
-  componentDidMount () {
+  componentDidMount() {
     this.setPageReady();
   }
   setPageReady = () => {
     this.setState({ ready: true });
-  };
-
-  setAfterLoginPath = (afterLoginPath) => {
-    this.setState({ afterLoginPath });
   };
 
   static defaultProps = {
@@ -58,10 +57,12 @@ class Index extends Component {
     emailAddress: '',
     emailVerified: false,
     authenticated: false,
+    postsLoading: true,
+    posts: [],
   };
 
   render() {
-    const { props, state, setAfterLoginPath } = this;
+    const { props, state } = this;
     const visible = state.ready && !props.loading;
     return (
       <Styles.App visible={visible}>
@@ -69,46 +70,76 @@ class Index extends Component {
           <div>
             <Navigation {...props} {...state} />
             {/* <div className="container"> */}
-              <Switch>
-                <Route
-                  exact
-                  path="/"
-                  component={Home}
-                />
-                <Route
-                  exact
-                  path="/posts/new"
-                  component={PostForm}
-                />
-                <Authenticated
-                  exact
-                  path="/profile"
-                  component={Profile}
-                  setAfterLoginPath={setAfterLoginPath}
-                  {...props}
-                  {...state}
-                />
-                <Public path="/signup" component={SignUp} {...props} {...state} />
-                <Public path="/login" component={LoginForm} {...props} {...state} />
-                <Public exact path="/posts" component={Posts} {...props} {...state} />
-                <Public exact path="/posts/:id/view" component={PostDetails} {...props} {...state} />
-                <Route
-                  path="/logout"
-                  render={(routeProps) => (
-                    <Logout {...routeProps} setAfterLoginPath={setAfterLoginPath} />
-                  )}
-                  {...props}
-                  {...state}
-                />
-                {/*
+            <Switch>
+              <Route
+                exact
+                path="/"
+                component={Home}
+              />
+              <Route
+                exact
+                path="/posts/new"
+                component={PostForm}
+              />
+              <Authenticated
+                exact
+                path="/profile"
+                component={Profile}
+                {...props}
+                {...state}
+              />
+              <Public path="/signup" component={Signup} {...props} {...state} />
+              <Public path="/login" component={LoginForm} {...props} {...state} />
+              <Route
+                exact
+                path="/posts"
+                render={() => {
+                  if (!this.props.postsLoading) {
+                    return (
+                      <Posts
+                        posts={this.props.posts}
+                        authenticated={this.props.authenticated}
+                      />);
+                  } else {
+                    return <AnimatedLoader />;
+                  }
+                }}
+              />
+              <Route
+                exact
+                path="/posts/:id/view"
+                render={(props) => {
+                  console.log(this.props);
+                  // const postId = parseInt(props.match.params.id, 10);
+                  if (!this.props.postsLoading) {
+                    const post = _.find(this.props.posts, post => post._id === props.match.params.id);
+                    return (
+                      <PostDetails
+                        post={post}
+                        authenticated={this.props.authenticated}
+                      />);
+                  } else {
+                    return <AnimatedLoader />;
+                  }
+                }}
+              />
+              <Route
+                path="/logout"
+                render={(routeProps) => (
+                  <Logout {...routeProps} />
+                )}
+                {...props}
+                {...state}
+              />
+              {/*
                 <Route name="verify-email" path="/verify-email/:token" component={VerifyEmail} />
                 <Route name="recover-password" path="/recover-password" component={RecoverPassword} />
                 <Route name="reset-password" path="/reset-password/:token" component={ResetPassword} /> */}
 
-              </Switch>
+            </Switch>
 
-              <Popup />
-            </div>
+            <Popup />
+          </div>
           {/* </div> */}
         </BrowserRouter>
       </Styles.App>
@@ -126,6 +157,7 @@ export default withTrackerSsr(() => {
   const emailAddress = user && user.emails && user.emails[0].address;
   const subscription = Meteor.subscribe('posts');
 
+  console.log(userId);
   return {
     currentUser: user,
     loading,

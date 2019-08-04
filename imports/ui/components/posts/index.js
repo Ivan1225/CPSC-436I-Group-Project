@@ -10,46 +10,29 @@ import { Card } from 'semantic-ui-react'
 
 class Posts extends Component {
   static propTypes = {
-    loggingIn: PropTypes.bool.isRequired,
-    loading: PropTypes.bool.isRequired,
     posts: PropTypes.arrayOf(PropTypes.object).isRequired,
-    match: PropTypes.object.isRequired,
-    history: PropTypes.object.isRequired,
+    authenticated: PropTypes.bool.isRequired,
   };
 
   render() {
     const {
-      loading,
+      authenticated,
       posts,
     } = this.props;
 
-    console.log(loading);
     console.log(this.props);
     return (
-      <div>
-        {!loading && (
-          <Card.Group id="content">
-            {
-              posts.map(post => (
-                <Post
-                  post={post}
-                />
-              ))
-            }
-          </Card.Group>
-        )}
-      </div>
+      <Card.Group id="content">
+        {
+          posts.map(post => (
+            <Post
+              post={post}
+            />
+          ))
+        }
+      </Card.Group>
     );
   }
 }
 
-export default withTracker(() => {
-  const subscription = Meteor.subscribe('posts');
-  const loggingIn = Meteor.loggingIn();
-
-  return {
-    loggingIn: loggingIn,
-    loading: !subscription.ready(),
-    posts: postsCollection.find().fetch(),
-  };
-})(Posts);
+export default Posts;
