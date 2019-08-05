@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const StyledSignup = styled.div`
+const StyledPost = styled.div`
   border: 1px solid var(--gray-lighter);
   padding: 25px;
   max-width: 425px;
@@ -11,9 +11,6 @@ const StyledSignup = styled.div`
     margin-top: 0;
   }
 
-  .fr-toolbar.fr-top {
-    z-index: 0;
-  }
   > .row {
     margin: 0 !important;
   }
@@ -22,12 +19,15 @@ const StyledSignup = styled.div`
     height: 41px;
     margin-top: 20px;
   }
-
   .dropzone {
-    width  : 100%;
-    height : 20%;
-    border : 1px solid black;
+    width: 100%;
+    height: 20%;
+    border: 1px solid black;
+  }
+  @media screen and (min-width: 768px) {
+    margin-top: 0px;
+    padding: 40px 25px;
   }
 `;
 
-export default StyledSignup;
+export default StyledPost;

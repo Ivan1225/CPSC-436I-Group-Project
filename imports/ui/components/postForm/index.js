@@ -10,15 +10,15 @@ import Select from 'react-select';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import validate from '../../../../modules/validate';
 import _ from 'lodash';
-import Dropzone from 'react-dropzone'
+import Dropzone from 'react-dropzone';
 // import Slingshot from 'meteor/edgee:slingshot';
 
-var uploader = new Slingshot.Upload("myFileUploads");
+var uploader = new Slingshot.Upload('myFileUploads');
 
 const category = [
   { label: 'Sale', value: 'sale' },
   { label: 'Service', value: 'service' },
-  { label: 'Housing', value: 'housing' },
+  { label: 'Housing', value: 'housing' }
 ];
 const city = [
   { label: 'Vancouver', value: 'vancouver' },
@@ -36,16 +36,24 @@ const city = [
   { label: 'Port Moody', value: 'port_moody' },
   { label: 'White Rock', value: 'white_rock' },
   { label: 'Pitt Meadows', value: 'pitt_meadows' },
-  { label: 'Tsawwassen', value: 'tsawwassen' },
-]
+  { label: 'Tsawwassen', value: 'tsawwassen' }
+];
 class PostForm extends Component {
   static propTypes = {
     post: PropTypes.object,
-    history: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired
   };
 
   static defaultProps = {
-    post: { name: '', phoneNumber: '', email: '', city: '', title: '', description: '', category: '' },
+    post: {
+      name: '',
+      phoneNumber: '',
+      email: '',
+      city: '',
+      title: '',
+      description: '',
+      category: ''
+    }
   };
 
   constructor(props) {
@@ -54,71 +62,69 @@ class PostForm extends Component {
     this.state = {
       model: this.props.description,
       files: [],
-      fileName: '',
+      fileName: ''
     };
   }
 
-  handleModelChange = (model) => {
+  handleModelChange = model => {
     this.setState({
       model: model
     });
-  }
+  };
 
   componentDidMount() {
     const component = this;
     validate(component.form, {
       rules: {
         title: {
-          required: true,
+          required: true
         },
         email: {
-          required: true,
+          required: true
         },
         name: {
-          required: true,
+          required: true
         },
         category: {
-          required: true,
+          required: true
         }
       },
       messages: {
         title: {
-          required: 'Need a title in here.',
+          required: 'Need a title in here.'
         },
         email: {
-          required: 'Need a email in here.',
+          required: 'Need a email in here.'
         },
         name: {
-          required: 'Need a name in here.',
+          required: 'Need a name in here.'
         },
         category: {
-          required: 'Need a category in here.',
-        },
+          required: 'Need a category in here.'
+        }
       },
       submitHandler() {
         component.handleSubmit(component.form);
-      },
+      }
     });
   }
 
-  handleOnDrop = (files) => {
+  handleOnDrop = files => {
     const reader = new FileReader();
     const file = files[0];
 
     reader.readAsDataURL(file);
-    reader.onload = ({
-      target: { result: imagePath },
-    }) => {
+    reader.onload = ({ target: { result: imagePath } }) => {
       this.setState({ imagePath });
     };
 
     this.setState({
       files,
-      fileName: file.name,
+      fileName: file.name
     });
-  }
+  };
 
-  handleSubmit = (form) => {
+  handleSubmit = form => {
     let imageUrl;
     const { history } = this.props;
     const existingPost = this.props.post && this.props.post._id;
@@ -132,28 +138,33 @@ class PostForm extends Component {
       category: form.category.value.trim(),
       title: form.title.value.trim(),
       description: this.state.model,
-      image: imageUrl,
+      image: imageUrl
     };
 
     if (existingPost) post._id = existingPost;
 
-    uploader.send(this.state.files[0], function (error, downloadUrl) {
+    uploader.send(this.state.files[0], function(error, downloadUrl) {
       if (error) {
         // Log service detailed response.
         console.error('Error uploading');
         alert(error);
-      }
-      else {
-        Meteor.call(methodToCall, {...post, image: downloadUrl}, (error, res) => {
-          if (error) {
-            Bert.alert(error.reason, 'danger');
-          } else {
-            const confirmation = existingPost ? 'Post updated!' : 'Post added!';
-            formRef.reset();
-            Bert.alert(confirmation, 'success');
-            history.push("/posts");
+      } else {
+        Meteor.call(
+          methodToCall,
+          { ...post, image: downloadUrl },
+          (error, res) => {
+            if (error) {
+              Bert.alert(error.reason, 'danger');
+            } else {
+              const confirmation = existingPost
+                ? 'Post updated!'
+                : 'Post added!';
+              formRef.reset();
+              Bert.alert(confirmation, 'success');
+              history.push('/posts');
+            }
           }
-        });
+        );
       }
     });
   };
@@ -162,62 +173,69 @@ class PostForm extends Component {
 
     return (
       <Style>
-        <Form ref={(form) => (this.form = form)} onSubmit={(event) => event.preventDefault()}>
+        <Form
+          ref={form => (this.form = form)}
+          onSubmit={event => event.preventDefault()}
+        >
           <Form.Row>
             <Form.Group controlId='formGridName'>
               <Form.Label>Name</Form.Label>
               <input
-                type="text"
-                className="form-control"
-                name="name"
+                type='text'
+                className='form-control'
+                name='name'
                 defaultValue={post && post.name}
-                placeholder="First Name"
+                placeholder='First Name'
+                required
               />
             </Form.Group>
             <Form.Group controlId='formGridPhoneNumber'>
               <Form.Label>Phone</Form.Label>
               <input
-                type="text"
-                className="form-control"
-                name="phoneNumber"
+                type='text'
+                className='form-control'
+                name='phoneNumber'
                 defaultValue={post && post.phoneNumber}
-                placeholder="Phone Number"
+                placeholder='Phone Number'
+                required
               />
             </Form.Group>
           </Form.Row>
           <Form.Group controlId='formGridEmail'>
             <Form.Label>Email</Form.Label>
             <input
-              type="email"
-              className="form-control"
-              name="email"
+              type='email'
+              className='form-control'
+              name='email'
               defaultValue={post && post.email}
-              placeholder="Email"
+              placeholder='Email'
+              required
             />
           </Form.Group>
           <Form.Group controlId='formGridCity'>
             <Form.Label>City</Form.Label>
             <Select
               options={city}
-              name="city"
+              name='city'
               defaultValue={post && post.city}
             />
           </Form.Group>
           <Form.Group controlId='formGridName'>
             <Form.Label>Title</Form.Label>
             <input
-              type="text"
-              className="form-control"
-              name="title"
+              type='text'
+              className='form-control'
+              name='title'
               defaultValue={post && post.title}
-              placeholder="Title"
+              placeholder='Title'
+              required
             />
           </Form.Group>
           <Form.Group controlId='formGridCategory'>
             <Form.Label> Category</Form.Label>
             <Select
               options={category}
-              name="category"
+              name='category'
               defaultValue={post && post.category}
             />
           </Form.Group>
@@ -225,19 +243,20 @@ class PostForm extends Component {
             <Form.Label> Description</Form.Label>
             <FroalaEditorComponent
               tag='textarea'
-              name="description"
+              name='description'
               model={this.state.model}
               onModelChange={this.handleModelChange}
               config={{
-                key: "2J1B10dC4F5E4F4D3C3cwrvlvg1C3fxyD8ciC-9adepbcD2vyzdF3H3A8D6D4F4D4E3E2A16==", // Pass your key here
-                placeholder: "Edit Me",
+                key:
+                  '2J1B10dC4F5E4F4D3C3cwrvlvg1C3fxyD8ciC-9adepbcD2vyzdF3H3A8D6D4F4D4E3E2A16==', // Pass your key here
+                placeholder: 'Edit Me',
                 charCounterCount: false,
                 events: {
                   'froalaEditor.image.beforeUpload': (e, editor, images) => {
-                    setTargetImage(images[0])
+                    setTargetImage(images[0]);
                   },
                   'froalaEditor.image.inserted': (e, editor, response) => {
-                    uploadImageForEditor(response[0])
+                    uploadImageForEditor(response[0]);
                   }
                 }
               }}
@@ -245,7 +264,7 @@ class PostForm extends Component {
           </Form.Group>
           <Dropzone onDrop={acceptedFiles => this.handleOnDrop(acceptedFiles)}>
             {({ getRootProps, getInputProps }) => (
-              <section className="dropzone">
+              <section className='dropzone'>
                 <div {...getRootProps()}>
                   <input {...getInputProps()} />
                   <p>Drag 'n' drop some files here, or click to select files</p>
@@ -256,7 +275,7 @@ class PostForm extends Component {
           <Form.Group id='formGridCheckbox'>
             <Form.Check type='checkbox' label='Agree with our rules' />
           </Form.Group>
-          <Button type="submit" bsstyle="success">
+          <Button type='submit' bsstyle='success'>
             {post && post._id ? 'Save Changes' : 'Add Post'}
           </Button>
         </Form>

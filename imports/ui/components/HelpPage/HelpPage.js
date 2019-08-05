@@ -11,74 +11,7 @@ import { Bert } from 'meteor/themeteorchef:bert';
 import style from '../signup/styles';
 import { Link, Redirect } from 'react-router-dom';
 
-const mapDispatchToProps = dispatch => {
-  return {
-    register: newUser => {
-      dispatch(registerSuccessfullyHandler(newUser));
-    }
-  };
-};
-
-class Signup extends Component {
-  static propTypes = {
-    register: PropTypes.func.isRequired,
-    history: PropTypes.object.isRequired
-  };
-
-  constructor(props) {
-    super(props);
-    this.email = React.createRef();
-    this.password = React.createRef();
-    this.confirmPassword = React.createRef();
-    this.firstName = React.createRef();
-    this.lastName = React.createRef();
-    this.phoneNumber = React.createRef();
-
-    this.state = {
-      email: '',
-      password: '',
-      confirmPassword: '',
-      firstName: '',
-      lastName: '',
-      phoneNumber: ''
-    };
-  }
-
-  if;
-
-  handleChange = event => {
-    this.setState({
-      [event.target.id]: event.target.value
-    });
-  };
-
-  handleSubmit = async event => {
-    event.preventDefault();
-
-    Accounts.createUser(
-      {
-        email: this.email.current.value,
-        password: this.password.current.value,
-        profile: {
-          name: {
-            first: this.firstName.current.value,
-            last: this.lastName.current.value
-          },
-          phoneNumber: this.phoneNumber.current.value
-        }
-      },
-      error => {
-        if (error) {
-          Bert.alert(error.reason, 'danger', 'growl-top-right');
-        } else {
-          // Meteor.call('users.sendVerificationEmail');
-          Bert.alert('Welcome!', 'success', 'growl-top-right');
-          this.props.history.push('/');
-        }
-      }
-    );
-  };
-
+class help extends Component {
   render() {
     return (
       <StyledSignup>
@@ -178,4 +111,4 @@ class Signup extends Component {
 export default connect(
   null,
   mapDispatchToProps
-)(withRouter(Signup));
+)(withRouter(help));

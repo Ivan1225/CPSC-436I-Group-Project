@@ -1,22 +1,21 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Meteor } from 'meteor/meteor';
 import { Roles } from 'meteor/alanning:roles';
 import { Container } from 'react-bootstrap';
 
-
 import Authenticated from '../../components/authenticated';
 import Authorized from '../authorized';
 import Public from '../../components/public';
 
-import NavBar from '../newComponents/NavBar.jsx'
+import NavBar from '../newComponents/NavBar.jsx';
 import LoginForm from '../login/login_form';
 import SignUp from '../signup';
 import IndexContent from '../_index_content';
-import Home from '../home'
-import Profile from '../Profile'
+import Home from '../home';
+import Profile from '../Profile';
 import Popup from '../newComponents/Popup';
 import AccountsUIWrapper from '../account_ui_wrapper';
 import PostForm from '../postForm';
@@ -35,19 +34,19 @@ class Index extends Component {
     userId: PropTypes.string,
     emailAddress: PropTypes.string,
     emailVerified: PropTypes.bool,
-    authenticated: PropTypes.bool,
+    authenticated: PropTypes.bool
   };
 
   state = { ready: false, afterLoginPath: null };
 
-  componentDidMount () {
+  componentDidMount() {
     this.setPageReady();
   }
   setPageReady = () => {
     this.setState({ ready: true });
   };
 
-  setAfterLoginPath = (afterLoginPath) => {
+  setAfterLoginPath = afterLoginPath => {
     this.setState({ afterLoginPath });
   };
 
@@ -56,7 +55,7 @@ class Index extends Component {
     userId: '',
     emailAddress: '',
     emailVerified: false,
-    authenticated: false,
+    authenticated: false
   };
 
   render() {
@@ -68,45 +67,44 @@ class Index extends Component {
           <div>
             <Navigation {...props} {...state} />
             {/* <div className="container"> */}
-              <Switch>
-                <Route
-                  exact
-                  path="/"
-                  component={Home}
-                />
-                <Route
-                  exact
-                  path="/posts/new"
-                  component={PostForm}
-                />
-                <Authenticated
-                  exact
-                  path="/profile"
-                  component={Profile}
-                  setAfterLoginPath={setAfterLoginPath}
-                  {...props}
-                  {...state}
-                />
-                <Public path="/signup" component={SignUp} {...props} {...state} />
-                <Public path="/login" component={LoginForm} {...props} {...state} />
-                <Public path="/posts" component={Posts} {...props} {...state} />
-                <Route
-                  path="/logout"
-                  render={(routeProps) => (
-                    <Logout {...routeProps} setAfterLoginPath={setAfterLoginPath} />
-                  )}
-                  {...props}
-                  {...state}
-                />
-                {/*
+            <Switch>
+              <Route exact path='/' component={Home} />
+              <Route exact path='/posts/new' component={PostForm} />
+              <Authenticated
+                exact
+                path='/profile'
+                component={Profile}
+                setAfterLoginPath={setAfterLoginPath}
+                {...props}
+                {...state}
+              />
+              <Public path='/signup' component={SignUp} {...props} {...state} />
+              <Public
+                path='/login'
+                component={LoginForm}
+                {...props}
+                {...state}
+              />
+              <Public path='/posts' component={Posts} {...props} {...state} />
+              <Route
+                path='/logout'
+                render={routeProps => (
+                  <Logout
+                    {...routeProps}
+                    setAfterLoginPath={setAfterLoginPath}
+                  />
+                )}
+                {...props}
+                {...state}
+              />
+              {/*
                 <Route name="verify-email" path="/verify-email/:token" component={VerifyEmail} />
                 <Route name="recover-password" path="/recover-password" component={RecoverPassword} />
                 <Route name="reset-password" path="/reset-password/:token" component={ResetPassword} /> */}
+            </Switch>
 
-              </Switch>
-
-              <Popup />
-            </div>
+            <Popup />
+          </div>
           {/* </div> */}
         </BrowserRouter>
       </Styles.App>
@@ -120,7 +118,8 @@ export default withTrackerSsr(() => {
   const user = Meteor.user();
   const userId = Meteor.userId();
   const loading = !app.ready() && !Roles.subscription.ready();
-  const name = user && user.profile && user.profile.name && getUserName(user.profile.name);
+  const name =
+    user && user.profile && user.profile.name && getUserName(user.profile.name);
   const emailAddress = user && user.emails && user.emails[0].address;
 
   return {
@@ -132,6 +131,7 @@ export default withTrackerSsr(() => {
     roles: Roles.getRolesForUser(userId),
     userId,
     emailAddress,
-    emailVerified: user && user.emails ? user.emails[0] && user.emails[0].verified : true,
+    emailVerified:
+      user && user.emails ? user.emails[0] && user.emails[0].verified : true
   };
 })(Index);
