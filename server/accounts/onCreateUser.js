@@ -8,6 +8,8 @@ Accounts.onCreateUser((options, user) => {
   if (options.profile) userToCreate.profile = options.profile;
   // if (isOAuthUser({ user: userToCreate })) sendWelcomeEmail({ user: userToCreate }); // NOTE: Sent for OAuth accounts only here. Sent for password accounts after email verification
   userToCreate.roles = ['user'];
+  userToCreate.ownPosts = [];
+  userToCreate.likePosts = [];
 
   // const settings = UserSettings.find().fetch();
   // userToCreate.settings = settings;

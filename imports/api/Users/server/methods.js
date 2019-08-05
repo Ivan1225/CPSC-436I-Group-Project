@@ -34,4 +34,34 @@ Meteor.methods({
         handleMethodException(exception);
       });
   },
+  'users.like': function like(postId) {
+    check(postId, String);
+
+    try {
+      if (!!Meteor.user()) {
+        Meteor.user().likePosts = Meteor.user().likePosts.concat(postId);
+
+        return postId; // Return _id so we can redirect to post after update.
+      }
+
+      throw new Meteor.Error('403', "Sorry. You're not allowed to like this post.");
+    } catch (exception) {
+      handleMethodException(exception);
+    }
+  },
+  'users.dislike': function like(postId) {
+    check(postId, String);
+
+    try {
+      if (!!Meteor.user()) {
+        Meteor.user().likePosts = Meteor.user().likePosts.filter(id => id !== postId);
+
+        return postId; // Return _id so we can redirect to post after update.
+      }
+
+      throw new Meteor.Error('403', "Sorry. You're not allowed to dislike this post.");
+    } catch (exception) {
+      handleMethodException(exception);
+    }
+  },
 });

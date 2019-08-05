@@ -11,18 +11,8 @@ import StyledSignup from './styles';
 import { Accounts } from 'meteor/accounts-base';
 import { Bert } from 'meteor/themeteorchef:bert';
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    register: (newUser) => {
-      dispatch(registerSuccessfullyHandler(newUser));
-    },
-  };
-};
-
-
 class Signup extends Component {
   static propTypes = {
-    register: PropTypes.func.isRequired,
     history: PropTypes.object.isRequired,
   };
 
@@ -170,6 +160,4 @@ class Signup extends Component {
   }
 }
 
-export default connect(null,
-  mapDispatchToProps
-)(withRouter(Signup));
+export default Signup;

@@ -41,11 +41,14 @@ const city = [
 class PostForm extends Component {
   static propTypes = {
     post: PropTypes.object,
+    authenticated: PropTypes.bool.isRequired,
+    userId: PropTypes.string,
     history: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
     post: { name: '', phoneNumber: '', email: '', city: '', title: '', description: '', category: '' },
+    userId: '',
   };
 
   constructor(props) {
@@ -159,7 +162,7 @@ class PostForm extends Component {
   };
   render() {
     const { post } = this.props;
-
+    console.log(this.props);
     return (
       <Style>
         <Form ref={(form) => (this.form = form)} onSubmit={(event) => event.preventDefault()}>
