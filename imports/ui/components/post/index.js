@@ -8,16 +8,18 @@ import { NavLink } from 'react-router-dom'
 class Post extends Component {
   static propTypes = {
     post: PropTypes.object.isRequired,
+    editable: PropTypes.bool.isRequired,
   };
 
   render() {
     const {
-      post
+      post,
+      editable,
     } = this.props;
 
     const updateAt = moment(post.updatedAt, 'YYYY-MM-DDTHH:mm:ss.SSSZ');
     const lastUpdateTime = updateAt.fromNow();
-    const path = `/posts/${post._id}/view`;
+    const path = editable ? `/posts/${post._id}/edit` : `/posts/${post._id}/view`;
 
     return (
       <Card>

@@ -85,7 +85,6 @@ class Index extends Component {
                     return (
                       <PostForm
                         userId={this.props.userId}
-                        authenticated={this.props.authenticated}
                       />);
                   } else {
                     return <AnimatedLoader />;
@@ -130,6 +129,22 @@ class Index extends Component {
                     const post = _.find(this.props.posts, post => post._id === props.match.params.id);
                     return (
                       <PostDetails
+                        post={post}
+                      />);
+                  } else {
+                    return <AnimatedLoader />;
+                  }
+                }}
+              />
+              <Route
+                exact
+                path="/posts/:id/edit"
+                render={(props) => {
+                  if (!this.props.postsLoading) {
+                    const post = _.find(this.props.posts, post => post._id === props.match.params.id);
+
+                    return (
+                      <PostForm
                         post={post}
                       />);
                   } else {

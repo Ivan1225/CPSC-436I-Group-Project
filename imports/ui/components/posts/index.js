@@ -11,11 +11,17 @@ import { Card } from 'semantic-ui-react'
 class Posts extends Component {
   static propTypes = {
     posts: PropTypes.arrayOf(PropTypes.object).isRequired,
+    editable: PropTypes.bool,
   };
+
+  static defaultProps = {
+    editable: false,
+  }
 
   render() {
     const {
       posts,
+      editable,
     } = this.props;
 
     return (
@@ -24,6 +30,7 @@ class Posts extends Component {
           posts.map(post => (
             <Post
               post={post}
+              editable={editable}
             />
           ))
         }

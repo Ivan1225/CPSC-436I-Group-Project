@@ -41,14 +41,11 @@ const city = [
 class PostForm extends Component {
   static propTypes = {
     post: PropTypes.object,
-    authenticated: PropTypes.bool.isRequired,
-    userId: PropTypes.string,
     history: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
     post: { name: '', phoneNumber: '', email: '', city: '', title: '', description: '', category: '' },
-    userId: '',
   };
 
   constructor(props) {
@@ -173,8 +170,8 @@ class PostForm extends Component {
                 type="text"
                 className="form-control"
                 name="name"
-                defaultValue={post && post.name}
-                placeholder="First Name"
+                defaultValue={post && post.ownerName}
+                placeholder="Owner Name"
               />
             </Form.Group>
             <Form.Group controlId='formGridPhoneNumber'>
@@ -203,7 +200,7 @@ class PostForm extends Component {
             <Select
               options={city}
               name="city"
-              defaultValue={post && post.city}
+              defaultValue={post && _.find(city, { 'value': post.city})}
             />
           </Form.Group>
           <Form.Group controlId='formGridName'>
@@ -221,7 +218,7 @@ class PostForm extends Component {
             <Select
               options={category}
               name="category"
-              defaultValue={post && post.category}
+              defaultValue={post && _.find(category, { 'value': post.category})}
             />
           </Form.Group>
           <Form.Group controlId='formGridContent'>

@@ -8,7 +8,7 @@ import { Roles } from 'meteor/alanning:roles';
 import './index.css';
 
 const AuthenticatedNavigation = ({ name, history, userId }) => (
-  <div className="dropdown111"> 
+  <div className="dropdown111">
     <Nav>
       <LinkContainer to="/posts/new">
         <NavItem eventkey={1} href="/posts/new">
@@ -40,6 +40,12 @@ const AuthenticatedNavigation = ({ name, history, userId }) => (
         <LinkContainer to="/ownedPosts">
           <NavItem eventkey={2.2} href="/ownedPosts">
             Owned Posts
+          </NavItem>
+        </LinkContainer>
+        <Dropdown.Divider />
+        <LinkContainer to="/likedPosts">
+          <NavItem eventkey={2.2} href="/likedPosts">
+            Liked Posts
           </NavItem>
         </LinkContainer>
         <Dropdown.Divider />
