@@ -159,7 +159,7 @@ class PostForm extends Component {
   };
   render() {
     const { post } = this.props;
-
+    console.log(this.props);
     return (
       <Style>
         <Form ref={(form) => (this.form = form)} onSubmit={(event) => event.preventDefault()}>
@@ -170,8 +170,8 @@ class PostForm extends Component {
                 type="text"
                 className="form-control"
                 name="name"
-                defaultValue={post && post.name}
-                placeholder="First Name"
+                defaultValue={post && post.ownerName}
+                placeholder="Owner Name"
               />
             </Form.Group>
             <Form.Group controlId='formGridPhoneNumber'>
@@ -200,7 +200,7 @@ class PostForm extends Component {
             <Select
               options={city}
               name="city"
-              defaultValue={post && post.city}
+              defaultValue={post && _.find(city, { 'value': post.city})}
             />
           </Form.Group>
           <Form.Group controlId='formGridName'>
@@ -218,7 +218,7 @@ class PostForm extends Component {
             <Select
               options={category}
               name="category"
-              defaultValue={post && post.category}
+              defaultValue={post && _.find(category, { 'value': post.category})}
             />
           </Form.Group>
           <Form.Group controlId='formGridContent'>

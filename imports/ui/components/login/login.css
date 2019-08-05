@@ -1,5 +1,11 @@
 @media all and (min-width: 480px) {
   .Login {
+    background-image: url("https://images.pexels.com/photos/1270905/pexels-photo-1270905.jpeg?cs=srgb&dl=buying-collection-hands-1270905.jpg&fm=jpg");
+    /* background-attachment: fixed; */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 650px; 
     padding: 60px 0;
   }
 
@@ -7,4 +13,11 @@
     margin: 0 auto;
     max-width: 320px;
   }
+  
+  .LoaderButton{
+    color: #000;
+    
+  }
 }
+
+/* https://images.pexels.com/photos/1270905/pexels-photo-1270905.jpeg?cs=srgb&dl=buying-collection-hands-1270905.jpg&fm=jpg */

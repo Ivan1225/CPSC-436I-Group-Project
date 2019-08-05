@@ -4,6 +4,7 @@ import "./login.css";
 import LoaderButton from "../loader/LoaderButton"
 import { Meteor } from 'meteor/meteor';
 import { Bert } from 'meteor/themeteorchef:bert';
+import Footer from '../newComponents/Footer.jsx'
 
 
 export default class LoginForm extends Component {
@@ -68,6 +69,7 @@ export default class LoginForm extends Component {
             loadingText="Logging in…"
           />
         </form>
+        <Footer/>
       </div>
     );
   }

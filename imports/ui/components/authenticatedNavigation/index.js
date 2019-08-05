@@ -5,14 +5,17 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { Nav, NavItem, NavDropdown, Dropdown } from 'react-bootstrap';
 import { Roles } from 'meteor/alanning:roles';
 
+import './index.css';
+
 const AuthenticatedNavigation = ({ name, history, userId }) => (
-  <div>
+  <div className="dropdown111">
     <Nav>
       <LinkContainer to="/posts/new">
         <NavItem eventkey={1} href="/posts/new">
           Post
         </NavItem>
       </LinkContainer>
+      <div className="dropdown222">
       {Roles.userIsInRole(userId, 'admin') && (
         <NavDropdown eventkey={2} title="Admin" id="admin-nav-dropdown">
           <LinkContainer exact to="/admin/users">
@@ -34,10 +37,23 @@ const AuthenticatedNavigation = ({ name, history, userId }) => (
           </NavItem>
         </LinkContainer>
         <Dropdown.Divider />
-        <Dropdown.Item eventkey={2.2} onClick={() => history.push('/logout')}>
+        <LinkContainer to="/ownedPosts">
+          <NavItem eventkey={2.2} href="/ownedPosts">
+            Owned Posts
+          </NavItem>
+        </LinkContainer>
+        <Dropdown.Divider />
+        <LinkContainer to="/likedPosts">
+          <NavItem eventkey={2.2} href="/likedPosts">
+            Liked Posts
+          </NavItem>
+        </LinkContainer>
+        <Dropdown.Divider />
+        <Dropdown.Item eventkey={2.3} onClick={() => history.push('/logout')}>
           Logout
         </Dropdown.Item>
       </NavDropdown>
+      </div>
     </Nav>
   </div>
 );

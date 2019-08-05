@@ -5,30 +5,38 @@ import { withTracker } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
 import { Bert } from 'meteor/themeteorchef:bert';
 import Styles from './styles';
+import Post from '../post';
+import { Card } from 'semantic-ui-react'
 
 class Posts extends Component {
   static propTypes = {
-    loading: PropTypes.bool.isRequired,
     posts: PropTypes.arrayOf(PropTypes.object).isRequired,
-    match: PropTypes.object.isRequired,
-    history: PropTypes.object.isRequired,
+    editable: PropTypes.bool,
   };
 
-  render() {
-    console.log(this.props.posts);
-    return (
-      <div>
+  static defaultProps = {
+    editable: false,
+  }
 
-      </div>
+  render() {
+    const {
+      posts,
+      editable,
+    } = this.props;
+
+    return (
+      <Card.Group itemsPerRow={6}>
+        {
+          posts.map(post => (
+            <Post
+              post={post}
+              editable={editable}
+            />
+          ))
+        }
+      </Card.Group>
     );
   }
 }
 
-export default withTracker(() => {
-  const subscription = Meteor.subscribe('posts');
-
-  return {
-    loading: !subscription.ready(),
-    posts: postsCollection.find().fetch(),
-  };
-})(Posts);
+export default Posts;
