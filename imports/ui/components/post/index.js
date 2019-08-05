@@ -5,7 +5,6 @@ import moment from 'moment';
 import { Card, Image, Icon } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom'
 
-
 class Post extends Component {
   static propTypes = {
     post: PropTypes.object.isRequired,
@@ -22,11 +21,11 @@ class Post extends Component {
 
     return (
       <Card>
-        <NavLink to={path}>
+        <NavLink style={{height: '200px'}} className="justify-content:center" to={path}>
           <Image
-            variant="top"
             alt={post.title}
-            src={post.image} />
+            src={post.image}
+          />
         </NavLink>
         <Card.Content>
           <Card.Header>
@@ -35,15 +34,14 @@ class Post extends Component {
           <Card.Meta>
             <span className='date'>{post.category}</span>
           </Card.Meta>
+          <Card.Description>
+            {post.description.replace(/<\/?[^>]+(>|$)/g, "")}
+          </Card.Description>
         </Card.Content>
-        <Card.Description>
-          {post.description.replace(/<\/?[^>]+(>|$)/g, "")}
-        </Card.Description>
         <Card.Content extra>
-          <a>
-            <Icon name='time' />
-            {lastUpdateTime}
-          </a>
+          <Icon name='time' />
+          {lastUpdateTime}
+          <i className="right floated red heart icon"></i>
         </Card.Content>
       </Card>
     );

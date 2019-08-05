@@ -28,7 +28,11 @@ Meteor.methods({
     });
 
     try {
-      return Posts.insert({ ...post });
+      const post = Posts.insert({ ...post })
+      if (!!Meteor.user()) {
+        Meteor.user().ownPosts = Meteor.user().ownPosts.concat(post._id);
+      }
+      return post;
     } catch (exception) {
       console.log(exception);
       handleMethodException(exception);
@@ -47,11 +51,12 @@ Meteor.methods({
 
     try {
       const postId = post._id;
-      const postToUpdate = Posts.findOne(postId, { fields: { owner: 1 } });
 
-      if (postToUpdate.owner === this.userId) {
-        Posts.update(postId, { $set: post });
-        return postId; // Return _id so we can redirect to post after update.
+      if (!!Meteor.user()) {
+        if (Meteor.user().ownPosts.includes(postId)) {
+          Posts.update(postId, { $set: post });
+          return postId; // Return _id so we can redirect to post after update.
+        }
       }
 
       throw new Meteor.Error('403', "Sorry. You're not allowed to edit this post.");
@@ -63,10 +68,11 @@ Meteor.methods({
     check(postId, String);
 
     try {
-      const postToRemove = Posts.findOne(postId, { fields: { owner: 1 } });
-
-      if (postToRemove.owner === this.userId) {
-        return Posts.remove(postId);
+      if (!!Meteor.user()) {
+        if (Meteor.user().ownPosts.includes(postId)) {
+          Meteor.user().ownPosts = Meteor.user().ownPosts.filter(id => id !== postId);
+          return Posts.remove(postId);
+        }
       }
 
       throw new Meteor.Error('403', "Sorry. You're not allowed to delete this post.");

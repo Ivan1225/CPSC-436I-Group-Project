@@ -79,7 +79,17 @@ class Index extends Component {
               <Route
                 exact
                 path="/posts/new"
-                component={PostForm}
+                render={() => {
+                  if (!this.props.loading) {
+                    return (
+                      <PostForm
+                        userId={this.props.userId}
+                        authenticated={this.props.authenticated}
+                      />);
+                  } else {
+                    return <AnimatedLoader />;
+                  }
+                }}
               />
               <Authenticated
                 exact

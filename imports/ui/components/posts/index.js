@@ -22,7 +22,7 @@ class Posts extends Component {
 
     console.log(this.props);
     return (
-      <Card.Group id="content">
+      <Card.Group itemsPerRow={6}>
         {
           posts.map(post => (
             <Post
