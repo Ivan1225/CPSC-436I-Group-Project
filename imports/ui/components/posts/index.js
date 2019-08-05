@@ -11,16 +11,13 @@ import { Card } from 'semantic-ui-react'
 class Posts extends Component {
   static propTypes = {
     posts: PropTypes.arrayOf(PropTypes.object).isRequired,
-    authenticated: PropTypes.bool.isRequired,
   };
 
   render() {
     const {
-      authenticated,
       posts,
     } = this.props;
 
-    console.log(this.props);
     return (
       <Card.Group itemsPerRow={6}>
         {

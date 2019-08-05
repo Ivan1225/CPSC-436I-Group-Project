@@ -6,13 +6,11 @@ class PostDetails extends Component {
   static propTypes = {
     post: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
-    authenticated: PropTypes.bool.isRequired,
   };
 
   render() {
     console.log(this.props);
     const {
-      authenticated,
       post,
     }  = this.props;
 

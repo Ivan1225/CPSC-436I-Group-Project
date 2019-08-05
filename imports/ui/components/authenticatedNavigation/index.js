@@ -34,7 +34,13 @@ const AuthenticatedNavigation = ({ name, history, userId }) => (
           </NavItem>
         </LinkContainer>
         <Dropdown.Divider />
-        <Dropdown.Item eventkey={2.2} onClick={() => history.push('/logout')}>
+        <LinkContainer to="/ownedPosts">
+          <NavItem eventkey={2.2} href="/ownedPosts">
+            Owned Posts
+          </NavItem>
+        </LinkContainer>
+        <Dropdown.Divider />
+        <Dropdown.Item eventkey={2.3} onClick={() => history.push('/logout')}>
           Logout
         </Dropdown.Item>
       </NavDropdown>

@@ -25,6 +25,7 @@ import Logout from '../logout';
 import Posts from '../posts';
 import PostDetails from '../postDetails';
 import AnimatedLoader from '../animated_loader';
+import OwnedPosts from '../ownedPosts';
 
 import withTrackerSsr from '../../../../modules/withTrackerSsr';
 import getUserName from '../../../../modules/getUserName';
@@ -98,6 +99,13 @@ class Index extends Component {
                 {...props}
                 {...state}
               />
+              <Authenticated
+                exact
+                path="/ownedPosts"
+                component={OwnedPosts}
+                {...props}
+                {...state}
+              />
               <Public path="/signup" component={Signup} {...props} {...state} />
               <Public path="/login" component={LoginForm} {...props} {...state} />
               <Route
@@ -108,7 +116,6 @@ class Index extends Component {
                     return (
                       <Posts
                         posts={this.props.posts}
-                        authenticated={this.props.authenticated}
                       />);
                   } else {
                     return <AnimatedLoader />;
@@ -119,14 +126,11 @@ class Index extends Component {
                 exact
                 path="/posts/:id/view"
                 render={(props) => {
-                  console.log(this.props);
-                  // const postId = parseInt(props.match.params.id, 10);
                   if (!this.props.postsLoading) {
                     const post = _.find(this.props.posts, post => post._id === props.match.params.id);
                     return (
                       <PostDetails
                         post={post}
-                        authenticated={this.props.authenticated}
                       />);
                   } else {
                     return <AnimatedLoader />;

@@ -28,11 +28,19 @@ Meteor.methods({
     });
 
     try {
-      const post = Posts.insert({ ...post })
+      const newPostId = Posts.insert({ ...post });
+
       if (!!Meteor.user()) {
-        Meteor.user().ownPosts = Meteor.user().ownPosts.concat(post._id);
+        const userId = Meteor.user()._id;
+        const ownPosts = Meteor.user().ownPosts.concat(newPostId);
+        Meteor.users.update(userId, {
+          $set: {
+            ownPosts,
+          },
+        });
       }
-      return post;
+
+      return newPostId;
     } catch (exception) {
       console.log(exception);
       handleMethodException(exception);
@@ -70,8 +78,15 @@ Meteor.methods({
     try {
       if (!!Meteor.user()) {
         if (Meteor.user().ownPosts.includes(postId)) {
-          Meteor.user().ownPosts = Meteor.user().ownPosts.filter(id => id !== postId);
+          const userId = Meteor.user()._id;
+          const ownPosts = Meteor.user().ownPosts.filter(id => id !== postId);
+          Meteor.users.update(userId, {
+            $set: {
+              ownPosts,
+            },
+          });
           return Posts.remove(postId);
+
         }
       }
 
