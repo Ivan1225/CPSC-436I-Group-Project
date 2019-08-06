@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import Posts from '../posts';
 
-class LikedPost extends Component {
+class LikedPosts extends Component {
   static propTypes = {
     currentUser: PropTypes.object.isRequired,
     posts: PropTypes.array.isRequired,
@@ -13,7 +13,6 @@ class LikedPost extends Component {
   };
 
   render() {
-    console.log(this.props);
     const {
       currentUser,
       posts,
@@ -27,6 +26,7 @@ class LikedPost extends Component {
       return (
         <Posts
           posts={likedPost}
+          currentUser={currentUser}
         />);
     } else {
       return <AnimatedLoader />;
@@ -34,4 +34,4 @@ class LikedPost extends Component {
   }
 }
 
-export default LikedPost;
+export default LikedPosts;
