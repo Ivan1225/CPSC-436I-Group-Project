@@ -39,7 +39,13 @@ Meteor.methods({
 
     try {
       if (!!Meteor.user()) {
-        Meteor.user().likePosts = Meteor.user().likePosts.concat(postId);
+        const userId = Meteor.user()._id;
+        const likePosts = Meteor.user().likePosts.concat(postId);
+        Meteor.users.update(userId, {
+          $set: {
+            likePosts,
+          },
+        });
 
         return postId; // Return _id so we can redirect to post after update.
       }
@@ -54,9 +60,18 @@ Meteor.methods({
 
     try {
       if (!!Meteor.user()) {
-        Meteor.user().likePosts = Meteor.user().likePosts.filter(id => id !== postId);
+        if (Meteor.user().likePosts.includes(postId)) {
+          const userId = Meteor.user()._id;
+          const likePosts = Meteor.user().likePosts.filter(id => id !== postId);
+          Meteor.users.update(userId, {
+            $set: {
+              likePosts,
+            },
+          });
 
-        return postId; // Return _id so we can redirect to post after update.
+          return postId; // Return _id so we can redirect to post after update.
+        }
+
       }
 
       throw new Meteor.Error('403', "Sorry. You're not allowed to dislike this post.");

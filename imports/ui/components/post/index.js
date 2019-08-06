@@ -4,17 +4,49 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Card, Image, Icon } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom'
+import _ from 'lodash';
 
 class Post extends Component {
   static propTypes = {
     post: PropTypes.object.isRequired,
     editable: PropTypes.bool.isRequired,
+    currentUser: PropTypes.object,
   };
+
+  constructor(props) {
+    super(props);
+
+    console.log(props);
+    this.hasUserLogging = !!this.props.currentUser;
+    if (!!this.props.currentUser) {
+      this.state = {
+        like: _.includes(this.props.currentUser.likePosts, this.props.post._id),
+      }
+    }
+  }
+
+  selectToFav = () => {
+    const method = this.state.like ? 'users.dislike' : 'users.like';
+
+    Meteor.call(method, this.props.post._id, (error) => {
+      console.log(error)
+      if (error) {
+        Bert.alert(error.reason, 'danger', 'growl-top-right');
+      } else {
+        this.setState(({like}) => {
+          return {
+            like: !like,
+          }
+        })
+      }
+    });
+  }
 
   render() {
     const {
       post,
       editable,
+      currentUser,
     } = this.props;
 
     const updateAt = moment(post.updatedAt, 'YYYY-MM-DDTHH:mm:ss.SSSZ');
@@ -43,7 +75,13 @@ class Post extends Component {
         <Card.Content extra>
           <Icon name='time' />
           {lastUpdateTime}
-          <i className="right floated red heart icon"></i>
+          {this.hasUserLogging&&
+            (
+              <a onClick={this.selectToFav}>
+               <i className={this.state.like ? "right floated red heart icon" : "right floated heart outline icon"}/>
+              </a>
+            )
+          }
         </Card.Content>
       </Card>
     );

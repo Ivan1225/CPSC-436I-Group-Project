@@ -12,6 +12,7 @@ class Posts extends Component {
   static propTypes = {
     posts: PropTypes.arrayOf(PropTypes.object).isRequired,
     editable: PropTypes.bool,
+    currentUser: PropTypes.object,
   };
 
   static defaultProps = {
@@ -22,19 +23,28 @@ class Posts extends Component {
     const {
       posts,
       editable,
+      currentUser,
     } = this.props;
 
+    let title;
+    if (editable) {
+      title = 'Owned Posts'
+    }
     return (
-      <Card.Group itemsPerRow={6}>
-        {
-          posts.map(post => (
-            <Post
-              post={post}
-              editable={editable}
-            />
-          ))
-        }
-      </Card.Group>
+      <React.Fragment>
+        {title}
+        <Card.Group itemsPerRow={6}>
+          {
+            posts.map(post => (
+              <Post
+                post={post}
+                editable={editable}
+                currentUser={currentUser}
+              />
+            ))
+          }
+        </Card.Group>
+      </React.Fragment>
     );
   }
 }

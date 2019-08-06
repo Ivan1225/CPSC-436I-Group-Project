@@ -28,6 +28,7 @@ class OwnedPosts extends Component {
         <Posts
           posts={ownedPosts}
           editable={true}
+          currentUser={currentUser}
         />);
     } else {
       return <AnimatedLoader />;
