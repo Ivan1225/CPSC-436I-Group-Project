@@ -52,6 +52,7 @@ class PostForm extends Component {
     this.state = {
       model: this.props.description,
       files: [],
+      checked: false,
     };
     this.editing = !!this.props.post;
 
@@ -125,7 +126,7 @@ class PostForm extends Component {
     return new Promise((resolve, reject) => {
       uploader.send(file, function (error, downloadURL) {
         if (error) {
-          return reject(uploader.xhr.response);
+          return reject(error);
         }
         else {
           return resolve(downloadURL);
@@ -143,44 +144,55 @@ class PostForm extends Component {
     return downloadURLs;
   }
 
+  handleCheckBox = () => {
+    this.setState(({checked}) => {
+      return {
+        checked: !checked,
+      }
+    })
+  }
 
 
   handleSubmit = (form) => {
-    let imageUrls = [];
-    const { history } = this.props;
-    const methodToCall = this.editing ? 'posts.update' : 'posts.insert';
-    const formRef = this.form;
-    let post = {
-      ownerName: form.name.value.trim(),
-      phoneNumber: parseInt(form.phoneNumber.value.trim(), 10),
-      price: parseInt(form.price.value.trim(), 10),
-      email: form.email.value.trim(),
-      city: form.city.value.trim(),
-      category: form.category.value.trim(),
-      title: form.title.value.trim(),
-      description: this.state.model,
-      images: imageUrls,
-    };
+    if (this.state.checked) {
+      let imageUrls = [];
+      const { history } = this.props;
+      const methodToCall = this.editing ? 'posts.update' : 'posts.insert';
+      const formRef = this.form;
+      let post = {
+        ownerName: form.name.value.trim(),
+        phoneNumber: parseInt(form.phoneNumber.value.trim(), 10),
+        price: parseInt(form.price.value.trim(), 10),
+        email: form.email.value.trim(),
+        city: form.city.value.trim(),
+        category: form.category.value.trim(),
+        title: form.title.value.trim(),
+        description: this.state.model,
+        images: imageUrls,
+      };
 
-    if (this.editing) {
-      post._id = this.props.post._id;
-      post.images = this.state.existingImages;
-    };
+      if (this.editing) {
+        post._id = this.props.post._id;
+        post.images = this.state.existingImages;
+      };
 
-    this.uploadPics(this.state.files).then((downloadURLs) => {
-      Meteor.call(methodToCall, { ...post, images: _.concat(post.images, downloadURLs) }, (error, res) => {
-        if (error) {
-          Bert.alert(error.reason, 'danger', 'growl-top-right');
-        } else {
-          const confirmation = this.editing ? 'Post updated!' : 'Post added!';
-          formRef.reset();
-          Bert.alert(confirmation, 'success', 'growl-top-right');
-          history.push("/posts");
-        }
-      });
-    }).catch((error) => {
-      Bert.alert(error.reason, 'danger', 'growl-top-right');
-    })
+      this.uploadPics(this.state.files).then((downloadURLs) => {
+        Meteor.call(methodToCall, { ...post, images: _.concat(post.images, downloadURLs) }, (error, res) => {
+          if (error) {
+            Bert.alert(error.reason, 'danger', 'growl-top-right');
+          } else {
+            const confirmation = this.editing ? 'Post updated!' : 'Post added!';
+            formRef.reset();
+            Bert.alert(confirmation, 'success', 'growl-top-right');
+            history.push("/posts");
+          }
+        });
+      }).catch((error) => {
+        Bert.alert(error.reason, 'danger', 'growl-top-right');
+      })
+    } else {
+      Bert.alert('Please agree with our policy', 'danger', 'growl-top-right');
+    }
   }
 
   render() {
@@ -197,6 +209,7 @@ class PostForm extends Component {
                 name="name"
                 defaultValue={post && post.ownerName}
                 placeholder="Owner Name"
+                required
               />
             </Form.Group>
             <Form.Group controlId='formGridPhoneNumber'>
@@ -207,6 +220,7 @@ class PostForm extends Component {
                 name="phoneNumber"
                 defaultValue={post && post.phoneNumber}
                 placeholder="Phone Number"
+                required
               />
             </Form.Group>
           </Form.Row>
@@ -218,6 +232,7 @@ class PostForm extends Component {
               name="email"
               defaultValue={post && post.email}
               placeholder="Email"
+              required
             />
           </Form.Group>
           <Form.Group controlId='formGridCity'>
@@ -236,6 +251,7 @@ class PostForm extends Component {
               name="title"
               defaultValue={post && post.title}
               placeholder="Title"
+              required
             />
           </Form.Group>
           <Form.Group controlId='formGridPrice'>
@@ -246,6 +262,7 @@ class PostForm extends Component {
               name="price"
               defaultValue={post && post.price}
               placeholder="Price"
+              required
             />
           </Form.Group>
           <Form.Group controlId='formGridCategory'>
@@ -266,6 +283,7 @@ class PostForm extends Component {
               config={{
                 key: "2J1B10dC4F5E4F4D3C3cwrvlvg1C3fxyD8ciC-9adepbcD2vyzdF3H3A8D6D4F4D4E3E2A16==", // Pass your key here
                 placeholder: "Edit Me",
+
                 charCounterCount: false,
                 events: {
                   'froalaEditor.image.beforeUpload': (e, editor, images) => {
@@ -280,18 +298,20 @@ class PostForm extends Component {
           </Form.Group>
           <Dropzone
             onDrop={acceptedFiles => this.handleOnDrop(acceptedFiles)}
+            accept={['image/jpeg', 'image/png', 'image/gif']}
           >
             {({ getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject }) => (
               <section>
                 <DropzoneStyle {...getRootProps({ isDragActive, isDragAccept, isDragReject })}>
                   <input {...getInputProps()} />
                   <p>Drag 'n' drop some files here, or click to select files</p>
+                  <em>(Only *.gif, *.jpeg and *.png images will be accepted)</em>
                 </DropzoneStyle>
               </section>
             )}
           </Dropzone>
           <Form.Group id='formGridCheckbox'>
-            <Form.Check type='checkbox' label='Agree with our rules' />
+            <Form.Check type='checkbox' onClick={this.handleCheckBox} label='Agree with our policy' />
           </Form.Group>
           <Button type="submit" bsstyle="success">
             {post && post._id ? 'Save Changes' : 'Add Post'}
