@@ -19,19 +19,20 @@ class Posts extends Component {
     } = this.props;
 
     return (
-      <div className = "ui grid">
       <Card.Group itemsPerRow={6}>
         
         {
           posts.map(post => (
+            <div className = "ui grid">
             <Post
               post={post}
             />
+            </div>
           ))
         }
         
       </Card.Group>
-      </div>
+    
     );
   }
 }

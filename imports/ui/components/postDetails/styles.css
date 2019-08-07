@@ -1,0 +1,23 @@
+.container {
+    width: 10%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+@import url('https://fonts.googleapis.com/css?family=Amatic+SC&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+
+.hello{
+    color: #201f1f;
+    font-size: 400%;
+    font-family: 'Amatic SC', cursive; 
+}
+/* img{
+    max-height: 100px;
+}
+
+.de img{
+    max-width: 200px;
+} */

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const StyledPost = styled.div`
+const StyledPosts = styled.div`
   /* landscape {
       border-radius: 0 !important;
       position:absolute;
@@ -36,7 +36,7 @@ const StyledPost = styled.div`
    
 `;
 
-export default StyledPost;
+export default StyledPosts;
 
 /* width: calc(16.66666667% - 1.5em); */
 
