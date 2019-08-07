@@ -19,7 +19,9 @@ class Posts extends Component {
     } = this.props;
 
     return (
+      <div className = "ui grid">
       <Card.Group itemsPerRow={6}>
+        
         {
           posts.map(post => (
             <Post
@@ -27,7 +29,9 @@ class Posts extends Component {
             />
           ))
         }
+        
       </Card.Group>
+      </div>
     );
   }
 }
