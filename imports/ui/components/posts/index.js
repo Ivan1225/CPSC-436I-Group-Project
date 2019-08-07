@@ -31,6 +31,7 @@ class Posts extends Component {
       title = 'Owned Posts'
     }
     return (
+      <Styles>
       <React.Fragment>
         {title}
         <Card.Group itemsPerRow={6}>
@@ -45,6 +46,7 @@ class Posts extends Component {
           }
         </Card.Group>
       </React.Fragment>
+      </Styles>
     );
   }
 }
