@@ -18,13 +18,14 @@ Meteor.methods({
   'posts.insert': function postsInsert(post) {
     check(post, {
       ownerName: String,
-      phoneNumber: String,
+      phoneNumber: Number,
       email: String,
       city: String,
       category: String,
       description: String,
       title: String,
       images: [String],
+      price: Number,
     });
 
     try {
@@ -50,11 +51,13 @@ Meteor.methods({
     check(post, {
       _id: String,
       ownerName: String,
-      phoneNumber: String,
+      phoneNumber: Number,
       email: String,
       city: String,
       category: String,
       description: String,
+      images: [String],
+      price: Number,
     });
 
     try {

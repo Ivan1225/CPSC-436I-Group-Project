@@ -152,7 +152,8 @@ class PostForm extends Component {
     const formRef = this.form;
     let post = {
       ownerName: form.name.value.trim(),
-      phoneNumber: form.phoneNumber.value.trim(),
+      phoneNumber: parseInt(form.phoneNumber.value.trim(), 10),
+      price: parseInt(form.price.value.trim(), 10),
       email: form.email.value.trim(),
       city: form.city.value.trim(),
       category: form.category.value.trim(),
@@ -227,7 +228,7 @@ class PostForm extends Component {
               defaultValue={post && _.find(city, { 'value': post.city })}
             />
           </Form.Group>
-          <Form.Group controlId='formGridName'>
+          <Form.Group controlId='formGridTitle'>
             <Form.Label>Title</Form.Label>
             <input
               type="text"
@@ -235,6 +236,16 @@ class PostForm extends Component {
               name="title"
               defaultValue={post && post.title}
               placeholder="Title"
+            />
+          </Form.Group>
+          <Form.Group controlId='formGridPrice'>
+            <Form.Label>Price</Form.Label>
+            <input
+              type="text"
+              className="form-control"
+              name="price"
+              defaultValue={post && post.price}
+              placeholder="Price"
             />
           </Form.Group>
           <Form.Group controlId='formGridCategory'>

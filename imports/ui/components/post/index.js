@@ -67,6 +67,7 @@ class Post extends Component {
           </Card.Header>
           <Card.Meta>
             <span className='date'>{post.category}</span>
+            <span className='right floated date'>{`$ ${post.price}`}</span>
           </Card.Meta>
           <Card.Description>
             {post.description.replace(/<\/?[^>]+(>|$)/g, "")}
