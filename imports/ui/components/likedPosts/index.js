@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import Posts from '../posts';
 
-class OwnedPosts extends Component {
+class LikedPosts extends Component {
   static propTypes = {
     currentUser: PropTypes.object.isRequired,
     posts: PropTypes.array.isRequired,
@@ -13,7 +13,6 @@ class OwnedPosts extends Component {
   };
 
   render() {
-    console.log(this.props);
     const {
       currentUser,
       posts,
@@ -22,12 +21,11 @@ class OwnedPosts extends Component {
     } = this.props;
 
     if (!postsLoading && ready) {
-      const ownedPosts = _.filter(posts, post => _.includes(currentUser.ownPosts, post._id));
+      const likedPost = _.filter(posts, post => _.includes(currentUser.likePosts, post._id));
 
       return (
         <Posts
-          posts={ownedPosts}
-          editable={true}
+          posts={likedPost}
           currentUser={currentUser}
         />);
     } else {
@@ -36,4 +34,4 @@ class OwnedPosts extends Component {
   }
 }
 
-export default OwnedPosts;
+export default LikedPosts;

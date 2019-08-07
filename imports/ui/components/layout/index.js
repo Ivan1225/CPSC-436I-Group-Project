@@ -26,6 +26,7 @@ import Posts from '../posts';
 import PostDetails from '../postDetails';
 import AnimatedLoader from '../animated_loader';
 import OwnedPosts from '../ownedPosts';
+import LikedPosts from '../likedPosts';
 
 import withTrackerSsr from '../../../../modules/withTrackerSsr';
 import getUserName from '../../../../modules/getUserName';
@@ -64,7 +65,8 @@ class Index extends Component {
 
   render() {
     const { props, state } = this;
-    const visible = state.ready && !props.loading;
+    const visible = state.ready && !props.postsLoading;
+    console.log(visible)
     return (
       <Styles.App visible={visible}>
         <BrowserRouter>
@@ -85,7 +87,6 @@ class Index extends Component {
                     return (
                       <PostForm
                         userId={this.props.userId}
-                        authenticated={this.props.authenticated}
                       />);
                   } else {
                     return <AnimatedLoader />;
@@ -106,16 +107,24 @@ class Index extends Component {
                 {...props}
                 {...state}
               />
+              <Authenticated
+                exact
+                path="/likedPosts"
+                component={LikedPosts}
+                {...props}
+                {...state}
+              />
               <Public path="/signup" component={Signup} {...props} {...state} />
               <Public path="/login" component={LoginForm} {...props} {...state} />
               <Route
                 exact
                 path="/posts"
                 render={() => {
-                  if (!this.props.postsLoading) {
+                  if (visible) {
                     return (
                       <Posts
                         posts={this.props.posts}
+                        currentUser={this.props.currentUser}
                       />);
                   } else {
                     return <AnimatedLoader />;
@@ -126,10 +135,26 @@ class Index extends Component {
                 exact
                 path="/posts/:id/view"
                 render={(props) => {
-                  if (!this.props.postsLoading) {
+                  if (visible) {
                     const post = _.find(this.props.posts, post => post._id === props.match.params.id);
                     return (
                       <PostDetails
+                        post={post}
+                      />);
+                  } else {
+                    return <AnimatedLoader />;
+                  }
+                }}
+              />
+              <Route
+                exact
+                path="/posts/:id/edit"
+                render={(props) => {
+                  if (visible) {
+                    const post = _.find(this.props.posts, post => post._id === props.match.params.id);
+
+                    return (
+                      <PostForm
                         post={post}
                       />);
                   } else {
@@ -171,7 +196,6 @@ export default withTrackerSsr(() => {
   const emailAddress = user && user.emails && user.emails[0].address;
   const subscription = Meteor.subscribe('posts');
 
-  console.log(userId);
   return {
     currentUser: user,
     loading,
