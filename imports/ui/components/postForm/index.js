@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import { Form, Row, Col, FormGroup, Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import Style from './styles';
+import DropzoneStyle from './dropzoneStyle';
 // Require Editor CSS files.
 import 'froala-editor/css/froala_style.min.css';
 import 'froala-editor/css/froala_editor.pkgd.min.css';
@@ -44,18 +46,18 @@ class PostForm extends Component {
     history: PropTypes.object.isRequired,
   };
 
-  static defaultProps = {
-    post: { name: '', phoneNumber: '', email: '', city: '', title: '', description: '', category: '' },
-  };
-
   constructor(props) {
     super(props);
 
     this.state = {
       model: this.props.description,
       files: [],
-      fileName: '',
     };
+    this.editing = !!this.props.post;
+
+    if (this.editing) {
+      this.state.existingImages = post.images;
+    }
   }
 
   handleModelChange = (model) => {
@@ -101,30 +103,54 @@ class PostForm extends Component {
     });
   }
 
-  handleOnDrop = (files) => {
+  handleOnDrop = (acceptedFiles) => {
     const reader = new FileReader();
-    const file = files[0];
 
-    reader.readAsDataURL(file);
-    reader.onload = ({
-      target: { result: imagePath },
-    }) => {
-      this.setState({ imagePath });
-    };
+    reader.onabort = () => console.log('file reading was aborted')
+    reader.onerror = () => console.log('file reading has failed')
+    reader.onload = () => {
+      // Do whatever you want with the file contents
+      const binaryStr = reader.result
+      console.log(binaryStr)
+    }
 
-    this.setState({
-      files,
-      fileName: file.name,
+    this.setState(({ files }) => {
+      return {
+        files: files.concat(acceptedFiles),
+      }
+    })
+  }
+
+  uploadPic = (file) => {
+    return new Promise((resolve, reject) => {
+      uploader.send(file, function (error, downloadURL) {
+        if (error) {
+          return reject(uploader.xhr.response);
+        }
+        else {
+          return resolve(downloadURL);
+        }
+      });
     });
   }
 
+  uploadPics = async (files) => {
+    let downloadURLs = [];
+    for (const file of files) {
+      const url = await this.uploadPic(file);
+      downloadURLs.push(url);
+    }
+    return downloadURLs;
+  }
+
+
+
   handleSubmit = (form) => {
-    let imageUrl;
+    let imageUrls = [];
     const { history } = this.props;
-    const existingPost = this.props.post && this.props.post._id;
-    const methodToCall = existingPost ? 'posts.update' : 'posts.insert';
+    const methodToCall = this.editing ? 'posts.update' : 'posts.insert';
     const formRef = this.form;
-    const post = {
+    let post = {
       ownerName: form.name.value.trim(),
       phoneNumber: form.phoneNumber.value.trim(),
       email: form.email.value.trim(),
@@ -132,34 +158,32 @@ class PostForm extends Component {
       category: form.category.value.trim(),
       title: form.title.value.trim(),
       description: this.state.model,
-      image: imageUrl,
+      images: imageUrls,
     };
 
-    if (existingPost) post._id = existingPost;
+    if (this.editing) {
+      post._id = this.props.post._id;
+      post.images = this.state.existingImages;
+    };
 
-    uploader.send(this.state.files[0], function (error, downloadUrl) {
-      if (error) {
-        // Log service detailed response.
-        console.error('Error uploading');
-        alert(error);
-      }
-      else {
-        Meteor.call(methodToCall, {...post, image: downloadUrl}, (error, res) => {
-          if (error) {
-            Bert.alert(error.reason, 'danger');
-          } else {
-            const confirmation = existingPost ? 'Post updated!' : 'Post added!';
-            formRef.reset();
-            Bert.alert(confirmation, 'success');
-            history.push("/posts");
-          }
-        });
-      }
-    });
-  };
+    this.uploadPics(this.state.files).then((downloadURLs) => {
+      Meteor.call(methodToCall, { ...post, images: _.concat(post.images, downloadURLs) }, (error, res) => {
+        if (error) {
+          Bert.alert(error.reason, 'danger', 'growl-top-right');
+        } else {
+          const confirmation = this.editing ? 'Post updated!' : 'Post added!';
+          formRef.reset();
+          Bert.alert(confirmation, 'success', 'growl-top-right');
+          history.push("/posts");
+        }
+      });
+    }).catch((error) => {
+      Bert.alert(error.reason, 'danger', 'growl-top-right');
+    })
+  }
+
   render() {
     const { post } = this.props;
-    console.log(this.props);
     return (
       <Style>
         <Form ref={(form) => (this.form = form)} onSubmit={(event) => event.preventDefault()}>
@@ -200,7 +224,7 @@ class PostForm extends Component {
             <Select
               options={city}
               name="city"
-              defaultValue={post && _.find(city, { 'value': post.city})}
+              defaultValue={post && _.find(city, { 'value': post.city })}
             />
           </Form.Group>
           <Form.Group controlId='formGridName'>
@@ -218,7 +242,7 @@ class PostForm extends Component {
             <Select
               options={category}
               name="category"
-              defaultValue={post && _.find(category, { 'value': post.category})}
+              defaultValue={post && _.find(category, { 'value': post.category })}
             />
           </Form.Group>
           <Form.Group controlId='formGridContent'>
@@ -243,13 +267,15 @@ class PostForm extends Component {
               }}
             />
           </Form.Group>
-          <Dropzone onDrop={acceptedFiles => this.handleOnDrop(acceptedFiles)}>
-            {({ getRootProps, getInputProps }) => (
-              <section className="dropzone">
-                <div {...getRootProps()}>
+          <Dropzone
+            onDrop={acceptedFiles => this.handleOnDrop(acceptedFiles)}
+          >
+            {({ getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject }) => (
+              <section>
+                <DropzoneStyle {...getRootProps({ isDragActive, isDragAccept, isDragReject })}>
                   <input {...getInputProps()} />
                   <p>Drag 'n' drop some files here, or click to select files</p>
-                </div>
+                </DropzoneStyle>
               </section>
             )}
           </Dropzone>
@@ -264,4 +290,4 @@ class PostForm extends Component {
     );
   }
 }
-export default PostForm;
+export default withRouter(PostForm);
