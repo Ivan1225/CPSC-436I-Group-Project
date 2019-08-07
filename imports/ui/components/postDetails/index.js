@@ -4,6 +4,8 @@ import _ from 'lodash';
 import { Container } from 'semantic-ui-react'
 import { Image } from 'semantic-ui-react'
 
+import Style from './styles';
+
 class PostDetails extends Component {
   static propTypes = {
     post: PropTypes.object.isRequired,
@@ -17,26 +19,34 @@ class PostDetails extends Component {
     }  = this.props;
 
     return (
+      <Style>
         <Container>
+        <div className = "ui two column grid">
+
           <div className = "de">
           <Image src={post.image}
           as='a'
-          size='large'
-          target='_blank'/>
+          size='big'
+          target='_blank'
+          rounded/>
+          </div>
+
           <div className = "text">
-          <li>{post.category}</li>
-          <li>City: {post.city}</li>
-          <li>{post.description}</li>
-          <li>{post.email}</li>
-          <li>{post.title}</li>
-          <li>{post.ownerName}</li>
-          <li>{post.phoneNumber}</li>
+          <li>Category: {post.category}</li>
+          <li>TITLE: {post.title}</li>
+          <li>CITY: {post.city}</li>
+          <li>DESCRIPTION: {post.description}</li>
+          <li>OWNER NAME :{post.ownerName}</li>
+          <li>EMAIL: {post.email}</li>
+          <li>#PHONE: {post.phoneNumber}</li>
           </div>
           
-        </div>
+         
+
+        </div> 
         </Container>
         
-      
+      </Style>
     );
 
   }
