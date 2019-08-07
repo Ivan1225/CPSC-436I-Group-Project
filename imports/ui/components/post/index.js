@@ -58,7 +58,7 @@ class Post extends Component {
         <NavLink style={{height: '200px'}} className="justify-content:center" to={path}>
           <Image
             alt={post.title}
-            src={post.image}
+            src={post.images[0]}
           />
         </NavLink>
         <Card.Content>

@@ -24,7 +24,7 @@ Meteor.methods({
       category: String,
       description: String,
       title: String,
-      image: String,
+      images: [String],
     });
 
     try {
