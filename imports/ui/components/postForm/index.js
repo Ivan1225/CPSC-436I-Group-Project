@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Form, Row, Col, FormGroup, Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
@@ -104,6 +104,10 @@ class PostForm extends Component {
     });
   }
 
+  componentWillUnmount() {
+    this.state.files.forEach(file => URL.revokeObjectURL(file.preview));
+  }
+
   handleOnDrop = (acceptedFiles) => {
     const reader = new FileReader();
 
@@ -117,7 +121,9 @@ class PostForm extends Component {
 
     this.setState(({ files }) => {
       return {
-        files: files.concat(acceptedFiles),
+        files: _.concat(files, acceptedFiles.map(file => Object.assign(file, {
+          preview: URL.createObjectURL(file)
+        }))),
       }
     })
   }
@@ -145,7 +151,7 @@ class PostForm extends Component {
   }
 
   handleCheckBox = () => {
-    this.setState(({checked}) => {
+    this.setState(({ checked }) => {
       return {
         checked: !checked,
       }
@@ -197,6 +203,7 @@ class PostForm extends Component {
 
   render() {
     const { post } = this.props;
+
     return (
       <Style>
         <Form ref={(form) => (this.form = form)} onSubmit={(event) => event.preventDefault()}>
@@ -310,6 +317,16 @@ class PostForm extends Component {
               </section>
             )}
           </Dropzone>
+          {this.state.files.map(file => (
+            <div className="thumb" key={file.name}>
+              <div className="thumbInner">
+                <img
+                  src={file.preview}
+                  className="img"
+                />
+              </div>
+            </div>
+          ))}
           <Form.Group id='formGridCheckbox'>
             <Form.Check type='checkbox' onClick={this.handleCheckBox} label='Agree with our policy' />
           </Form.Group>

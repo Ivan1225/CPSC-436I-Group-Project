@@ -23,6 +23,29 @@ const StyledSignup = styled.div`
     margin-top: 20px;
   }
 
+  .thumb {
+    display: inline-flex;
+    borderRadius: 2;
+    border: 1px solid #eaeaea;
+    marginBottom: 8;
+    marginRight: 8;
+    width: 100;
+    height: 100;
+    padding: 4;
+    boxSizing: border-box;
+  }
+
+  .thumbInner {
+    display: flex;
+    minWidth: 0;
+    overflow: hidden;
+  }
+
+  .img {
+    display: block;
+    width: 100%;
+    height: 100%;
+  };
 `;
 
 export default StyledSignup;
