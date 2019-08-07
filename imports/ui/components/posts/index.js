@@ -31,8 +31,8 @@ class Posts extends Component {
       title = 'Owned Posts'
     }
     return (
-      <React.Fragment>
-        {title}
+      <Styles>
+        <h2 class="ui header">{title}</h2>
         <Card.Group itemsPerRow={6}>
           {
             posts.map(post => (
@@ -44,7 +44,7 @@ class Posts extends Component {
             ))
           }
         </Card.Group>
-      </React.Fragment>
+      </Styles>
     );
   }
 }

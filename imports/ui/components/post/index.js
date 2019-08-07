@@ -55,7 +55,7 @@ class Post extends Component {
 
     return (
       <Card>
-        <NavLink style={{height: '200px'}} className="justify-content:center" to={path}>
+        <NavLink style={{height: '200px', display: 'flex', alignItems: 'center'}} className="justify-content:center" to={path}>
           <Image
             alt={post.title}
             src={post.images[0]}
@@ -67,6 +67,7 @@ class Post extends Component {
           </Card.Header>
           <Card.Meta>
             <span className='date'>{post.category}</span>
+            <span className='right floated date'>{`$ ${post.price}`}</span>
           </Card.Meta>
           <Card.Description>
             {post.description.replace(/<\/?[^>]+(>|$)/g, "")}

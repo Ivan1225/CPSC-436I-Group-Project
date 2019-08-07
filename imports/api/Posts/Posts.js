@@ -33,6 +33,7 @@ Posts.schema = new SimpleSchema({
     allowedValues: ['vancouver', 'surrey', 'burnaby', 'richmond', 'coquitlam', 'langley', 'delta', 'north_vancouver', 'maple_ridge', 'new_westminster', 'port_coquitlam', 'west_vancouver', 'port_moody', 'white_rock', 'pitt_meadows', 'tsawwassen']
   },
   phoneNumber: Number,
+  price: Number,
   description: String,
   createdAt: {
     type: String,
