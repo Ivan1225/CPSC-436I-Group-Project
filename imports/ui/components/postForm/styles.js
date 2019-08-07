@@ -36,6 +36,7 @@ const StyledSignup = styled.div`
   }
 
   .thumbInner {
+    position: relative;
     display: flex;
     minWidth: 0;
     overflow: hidden;
@@ -46,6 +47,35 @@ const StyledSignup = styled.div`
     width: 100%;
     height: 100%;
   };
+
+  .thumbInner img:hover {
+    opacity: 0.5
+  }
+  .thumbInner:hover a {
+    opacity: 1; /* added */
+    top: 0; /* added */
+    z-index: 500;
+  }
+
+  .thumbInner:hover a i {
+    top: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .thumbInner a {
+    display: block;
+    position: absolute;
+    top: 0%;
+    opacity: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    text-align: center;
+    color: inherit;
+}
+
 `;
 
 export default StyledSignup;

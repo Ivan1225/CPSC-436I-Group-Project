@@ -320,6 +320,10 @@ class PostForm extends Component {
           {this.state.files.map(file => (
             <div className="thumb" key={file.name}>
               <div className="thumbInner">
+                {/* <span class="close">&times;</span> */}
+                <a href="#">
+                  <i class="trash alternate outline icon"></i>
+                </a>
                 <img
                   src={file.preview}
                   className="img"
