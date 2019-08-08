@@ -33,19 +33,19 @@ const AuthenticatedNavigation = ({ name, history, userId }) => (
       <NavDropdown eventkey={2} title={name} data-test="user-nav-dropdown" id="user-nav-dropdown">
         <LinkContainer to="/profile">
           <NavItem eventkey={2.1} href="/profile">
-            Profile
+             Profile
           </NavItem>
         </LinkContainer>
         <Dropdown.Divider />
         <LinkContainer to="/ownedPosts">
           <NavItem eventkey={2.2} href="/ownedPosts">
-            Owned Posts
+             Owned Posts
           </NavItem>
         </LinkContainer>
         <Dropdown.Divider />
         <LinkContainer to="/likedPosts">
           <NavItem eventkey={2.2} href="/likedPosts">
-            Liked Posts
+             Liked Posts
           </NavItem>
         </LinkContainer>
         <Dropdown.Divider />

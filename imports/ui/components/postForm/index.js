@@ -208,7 +208,7 @@ class PostForm extends Component {
       <Style>
         <Form ref={(form) => (this.form = form)} onSubmit={(event) => event.preventDefault()}>
           <Form.Row>
-            <Form.Group controlId='formGridName'>
+            <Form.Group controlId='formGridName' className = "name_1">
               <Form.Label>Name</Form.Label>
               <input
                 type="text"
@@ -280,7 +280,7 @@ class PostForm extends Component {
               defaultValue={post && _.find(category, { 'value': post.category })}
             />
           </Form.Group>
-          <Form.Group controlId='formGridContent'>
+          <Form.Group controlId='formGridContent' className = "description">
             <Form.Label> Description</Form.Label>
             <FroalaEditorComponent
               tag='textarea'
