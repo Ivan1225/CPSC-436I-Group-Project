@@ -20,7 +20,7 @@ class Footer extends Component {
                 {/* <span className="text-muted">
                         © 2019 Wstore, Inc. All rights reserved
                     </span>
-                    <div class="d-flex flex-row-reverse">
+                    <div className="d-flex flex-row-reverse">
                     <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
                         Policy
                     </button>
