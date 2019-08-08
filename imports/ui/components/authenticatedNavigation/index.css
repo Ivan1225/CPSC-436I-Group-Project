@@ -11,12 +11,13 @@
 
 .navbar-expand .navbar-nav .dropdown-menu .nav-item{
     color: #201f1f;
-    font-size: 200%;
+    font-size: 150%;
     font-family: 'Amatic SC', cursive;
+    margin-left: 0.7em;
 }
 
 .navbar-expand .navbar-nav .dropdown-menu .dropdown-item{
     color: #201f1f;
-    font-size: 200%;
+    font-size: 150%;
     font-family: 'Amatic SC', cursive;
 }
