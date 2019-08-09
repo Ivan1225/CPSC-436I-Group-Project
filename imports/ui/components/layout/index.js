@@ -6,6 +6,7 @@ import { Meteor } from 'meteor/meteor';
 import { Roles } from 'meteor/alanning:roles';
 import { Container } from 'react-bootstrap';
 import postsCollection from '../../../api/Posts/Posts';
+import _ from 'lodash';
 
 import Authenticated from '../../components/authenticated';
 import Authorized from '../authorized';
