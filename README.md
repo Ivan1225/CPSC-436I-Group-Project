@@ -1,6 +1,7 @@
 # Wstore
 
 A web app for merchants and buyers.
+### Project Documentation ([Link](./document.md))
 
 ### Project Introduction
 
@@ -61,7 +62,7 @@ A web app for merchants and buyers.
 
 ---
 
-- [Index Page](./prototypes/index.pdf)
-- [Login Page](./prototypes/login.pdf)
-- [Register Page](./prototypes/register.pdf)
-- [List Page](./prototypes/list.pdf)
+- [Index Page](./index.pdf)
+- [Login Page](./login.pdf)
+- [Register Page](./register.pdf)
+- [List Page](./list.pdf)
