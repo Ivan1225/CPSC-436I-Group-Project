@@ -32,15 +32,15 @@ class Posts extends Component {
     }
     return (
       <Styles>
-        <h2 class="ui header">{title}</h2>
-        <Card.Group itemsPerRow={6}>
+        <h2 className="ui header">{title}</h2>
+        <Card.Group itemsPerRow={7}>
           {
             posts.map(post => (
-              <Post
-                post={post}
-                editable={editable}
-                currentUser={currentUser}
-              />
+                <Post
+                  post={post}
+                  editable={editable}
+                  currentUser={currentUser}
+                />
             ))
           }
         </Card.Group>

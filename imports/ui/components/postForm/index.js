@@ -50,7 +50,7 @@ class PostForm extends Component {
     super(props);
 
     this.state = {
-      model: this.props.description,
+      model: '',
       files: [],
       checked: false,
       existingImages: [],
@@ -58,9 +58,9 @@ class PostForm extends Component {
     this.editing = !!this.props.post;
 
     if (this.editing) {
-      this.setState({
-        existingImages: post.images,
-      });
+      this.state.model = this.props.post.description,
+
+      this.state.existingImages = this.props.post.images
     }
   }
 
@@ -204,7 +204,7 @@ class PostForm extends Component {
           if (error) {
             Bert.alert(error.reason, 'danger', 'growl-top-right');
           } else {
-            const confirmation = this.editing ? 'Post updated!' : 'Post added!';
+            const confirmation = this.editing ? 'Post updated successfully!' : 'Post added successfully!';
             formRef.reset();
             Bert.alert(confirmation, 'success', 'growl-top-right');
             history.push("/posts");
@@ -216,6 +216,17 @@ class PostForm extends Component {
     } else {
       Bert.alert('Please agree with our policy', 'danger', 'growl-top-right');
     }
+  }
+
+  handleDelete = () => {
+    Meteor.call('posts.remove', this.props.post._id, (error, res) => {
+      if (error) {
+        Bert.alert(error.reason, 'danger', 'growl-top-right');
+      } else {
+        Bert.alert('Post deleted successfully!', 'success', 'growl-top-right');
+        this.props.history.push("/posts");
+      }
+    })
   }
 
   render() {
@@ -299,7 +310,6 @@ class PostForm extends Component {
           </Form.Group>
           <Form.Group controlId='formGridContent' className="description">
             <Form.Label> Description</Form.Label>
-
             <FroalaEditorComponent
               tag='textarea'
               name="description"
@@ -338,7 +348,7 @@ class PostForm extends Component {
           {this.state.files.map(file => (
             <div className="thumb" key={file.name}>
               <div className="thumbInner">
-                {/* <span class="close">&times;</span> */}
+                {/* <span className="close">&times;</span> */}
                 <a onClick={() => { this.removeFile(file); }}>
                   <i className="trash alternate outline icon"></i>
                 </a>
@@ -352,7 +362,7 @@ class PostForm extends Component {
           {this.state.existingImages.map(imageUrl => (
             <div className="thumb" key={imageUrl}>
               <div className="thumbInner">
-                {/* <span class="close">&times;</span> */}
+                {/* <span className="close">&times;</span> */}
                 <a onClick={() => { this.removeExistingImage(imageUrl); }}>
                   <i className="trash alternate outline icon"></i>
                 </a>
@@ -369,6 +379,11 @@ class PostForm extends Component {
           <Button type="submit" bsstyle="success">
             {post && post._id ? 'Save Changes' : 'Add Post'}
           </Button>
+          {this.editing && (
+            <Button variant="danger" onClick={this.handleDelete} bsstyle="warning">
+            Delete This Post
+          </Button>
+          )}
         </Form>
       </Style>
     );

@@ -95,6 +95,10 @@ small {
     position: relative;
     font-family: 'Amatic SC', cursive;
 }
+.like {
+    margin-right:10px;
+    float:left;
+}
 `;
 
 export default StyledDetails;

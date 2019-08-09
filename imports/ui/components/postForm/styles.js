@@ -18,7 +18,7 @@ const StyledSignup = styled.div`
     margin: 0 !important;
   }
 
-  button[type='submit'] {
+  button {
     height: 41px;
     margin-top: 20px;
   }

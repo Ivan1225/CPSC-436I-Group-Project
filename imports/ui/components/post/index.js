@@ -16,7 +16,6 @@ class Post extends Component {
   constructor(props) {
     super(props);
 
-    console.log(props);
     this.hasUserLogging = !!this.props.currentUser;
     if (!!this.props.currentUser) {
       this.state = {
@@ -29,7 +28,6 @@ class Post extends Component {
     const method = this.state.like ? 'users.dislike' : 'users.like';
 
     Meteor.call(method, this.props.post._id, (error) => {
-      console.log(error)
       if (error) {
         Bert.alert(error.reason, 'danger', 'growl-top-right');
       } else {

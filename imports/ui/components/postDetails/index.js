@@ -15,6 +15,33 @@ class PostDetails extends Component {
     history: PropTypes.object.isRequired,
   };
 
+  constructor(props) {
+    super(props);
+
+    this.hasUserLogging = !!this.props.currentUser;
+    if (!!this.props.currentUser) {
+      this.state = {
+        like: _.includes(this.props.currentUser.likePosts, this.props.post._id),
+      }
+    }
+  }
+
+  selectToFav = () => {
+    const method = this.state.like ? 'users.dislike' : 'users.like';
+
+    Meteor.call(method, this.props.post._id, (error) => {
+      if (error) {
+        Bert.alert(error.reason, 'danger', 'growl-top-right');
+      } else {
+        this.setState(({ like }) => {
+          return {
+            like: !like,
+          }
+        })
+      }
+    });
+  }
+
   render() {
     const {
       post,
@@ -28,8 +55,14 @@ class PostDetails extends Component {
     return (
       <Style>
         <div style={{ marginLeft: '25px', marginRight: '25px' }}>
+          {this.hasUserLogging &&
+            (
+              <a className="like" onClick={this.selectToFav}>
+                <i className={this.state.like ? "right floated red heart icon" : "right floated heart outline icon"} />
+              </a>
+            )
+          }
           <h2 className="postingTitle">
-            <span></span>
             <span>
               <span>{post.title}</span>
               <span> - </span>
@@ -44,23 +77,23 @@ class PostDetails extends Component {
 
           <div className="text">
             <div>
-              <i class="user icon"></i>
+              <i className="user icon"></i>
               Owner: {post.ownerName}
             </div>
             <div>
-              <i class="envelope icon"></i>
+              <i className="envelope icon"></i>
               Email: {post.email}
             </div>
             <div>
-              <i class="phone icon"></i>
+              <i className="phone icon"></i>
               Phone: {post.phoneNumber}
             </div>
             <div>
-              <i class="tag icon"></i>
+              <i className="tag icon"></i>
               Category: {post.category}
             </div>
             <div>
-              <i class="info icon"></i>
+              <i className="info icon"></i>
               Description:
               <div className="description" dangerouslySetInnerHTML={{ __html: post.description }} />
             </div>

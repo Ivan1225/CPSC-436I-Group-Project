@@ -6,6 +6,15 @@ import { Nav, NavItem, NavDropdown, Dropdown } from 'react-bootstrap';
 import { Roles } from 'meteor/alanning:roles';
 
 import './index.css';
+logout = (history) => {
+  Meteor.logout().then((res) => {
+    Bert.alert("You have been successfully logged out", 'success', 'growl-top-right');
+    history.push('/');
+  }).catch((error) => {
+    Bert.alert(error.reason, 'danger', 'growl-top-right');
+  });
+
+}
 
 const AuthenticatedNavigation = ({ name, history, userId }) => (
   <div className="dropdown111">
@@ -16,43 +25,43 @@ const AuthenticatedNavigation = ({ name, history, userId }) => (
         </NavItem>
       </LinkContainer>
       <div className="dropdown222">
-      {Roles.userIsInRole(userId, 'admin') && (
-        <NavDropdown eventkey={2} title="Admin" id="admin-nav-dropdown">
-          <LinkContainer exact to="/admin/users">
-            <NavItem eventkey={2.1} href="/admin/users">
-              Users
+        {Roles.userIsInRole(userId, 'admin') && (
+          <NavDropdown eventkey={2} title="Admin" id="admin-nav-dropdown">
+            <LinkContainer exact to="/admin/users">
+              <NavItem eventkey={2.1} href="/admin/users">
+                Users
             </NavItem>
-          </LinkContainer>
-          <LinkContainer exact to="/admin/users/settings">
-            <NavItem eventkey={2.2} href="/admin/users/settings">
-              User Settings
+            </LinkContainer>
+            <LinkContainer exact to="/admin/users/settings">
+              <NavItem eventkey={2.2} href="/admin/users/settings">
+                User Settings
             </NavItem>
+            </LinkContainer>
+          </NavDropdown>
+        )}
+        <NavDropdown eventkey={2} title={name} data-test="user-nav-dropdown" id="user-nav-dropdown">
+          <LinkContainer to="/profile">
+            <NavItem eventkey={2.1} href="/profile">
+              Profile
+          </NavItem>
           </LinkContainer>
-        </NavDropdown>
-      )}
-      <NavDropdown eventkey={2} title={name} data-test="user-nav-dropdown" id="user-nav-dropdown">
-        <LinkContainer to="/profile">
-          <NavItem eventkey={2.1} href="/profile">
-             Profile
+          <Dropdown.Divider />
+          <LinkContainer to="/ownedPosts">
+            <NavItem eventkey={2.2} href="/ownedPosts">
+              Owned Posts
           </NavItem>
-        </LinkContainer>
-        <Dropdown.Divider />
-        <LinkContainer to="/ownedPosts">
-          <NavItem eventkey={2.2} href="/ownedPosts">
-             Owned Posts
+          </LinkContainer>
+          <Dropdown.Divider />
+          <LinkContainer to="/likedPosts">
+            <NavItem eventkey={2.2} href="/likedPosts">
+              Liked Posts
           </NavItem>
-        </LinkContainer>
-        <Dropdown.Divider />
-        <LinkContainer to="/likedPosts">
-          <NavItem eventkey={2.2} href="/likedPosts">
-             Liked Posts
-          </NavItem>
-        </LinkContainer>
-        <Dropdown.Divider />
-        <Dropdown.Item eventkey={2.3} onClick={() => history.push('/logout')}>
-          Logout
+          </LinkContainer>
+          <Dropdown.Divider />
+          <Dropdown.Item eventkey={2.3} onClick={() => {this.logout(history)}}>
+            Logout
         </Dropdown.Item>
-      </NavDropdown>
+        </NavDropdown>
       </div>
     </Nav>
   </div>

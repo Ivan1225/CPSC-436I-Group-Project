@@ -139,6 +139,7 @@ class Index extends Component {
                     return (
                       <PostDetails
                         post={post}
+                        currentUser={this.props.currentUser}
                       />);
                   } else {
                     return <AnimatedLoader />;
