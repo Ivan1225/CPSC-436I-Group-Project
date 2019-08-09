@@ -47,7 +47,11 @@ class PostDetails extends Component {
       post,
     } = this.props;
 
-    const images = _.map(post.images, image => ({ original: image, thumbnail: image }));
+    let images = _.map(post.images, image => ({ original: image, thumbnail: image }));
+
+    if (_.isEmpty(images)) {
+      images =  [{original: 'https://wstore-app.s3-us-west-1.amazonaws.com/default.jpg', thumbnail: 'https://wstore-app.s3-us-west-1.amazonaws.com/default.jpg'}]
+    }
 
     const updateAt = moment(post.updatedAt, 'YYYY-MM-DDTHH:mm:ss.SSSZ');
     const lastUpdateTime = updateAt.fromNow();
