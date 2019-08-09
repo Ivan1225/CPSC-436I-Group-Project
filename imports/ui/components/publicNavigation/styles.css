@@ -6,9 +6,10 @@
 
   } */
 
-  @import url('https://fonts.googleapis.com/css?family=Amatic+SC&display=swap');  
+  @import url('https://fonts.googleapis.com/css?family=Amatic+SC&display=swap');
   .navbar-nav{
     color: #201f1f;
     font-size: 200%;
     font-family: 'Amatic SC', cursive;
-  } 
+    cursor: pointer;
+  }

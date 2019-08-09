@@ -50,14 +50,17 @@ class PostForm extends Component {
     super(props);
 
     this.state = {
-      model: this.props.description,
+      model: '',
       files: [],
       checked: false,
+      existingImages: [],
     };
     this.editing = !!this.props.post;
 
     if (this.editing) {
-      this.state.existingImages = post.images;
+      this.state.model = this.props.post.description,
+
+      this.state.existingImages = this.props.post.images
     }
   }
 
@@ -158,6 +161,20 @@ class PostForm extends Component {
     })
   }
 
+  removeFile = (file) => {
+    this.setState(({ files }) => {
+      return {
+        files: _.filter(files, f => f.name !== file.name),
+      }
+    })
+  }
+  removeExistingImage = (imageUrl) => {
+    this.setState(({ existingImages }) => {
+      return {
+        existingImages: _.filter(existingImages, url => url !== imageUrl),
+      }
+    })
+  }
 
   handleSubmit = (form) => {
     if (this.state.checked) {
@@ -183,11 +200,11 @@ class PostForm extends Component {
       };
 
       this.uploadPics(this.state.files).then((downloadURLs) => {
-        Meteor.call(methodToCall, { ...post, images: _.concat(post.images, downloadURLs) }, (error, res) => {
+        Meteor.call(methodToCall, { ...post, images: _.concat(this.state.existingImages, downloadURLs) }, (error, res) => {
           if (error) {
             Bert.alert(error.reason, 'danger', 'growl-top-right');
           } else {
-            const confirmation = this.editing ? 'Post updated!' : 'Post added!';
+            const confirmation = this.editing ? 'Post updated successfully!' : 'Post added successfully!';
             formRef.reset();
             Bert.alert(confirmation, 'success', 'growl-top-right');
             history.push("/posts");
@@ -201,6 +218,17 @@ class PostForm extends Component {
     }
   }
 
+  handleDelete = () => {
+    Meteor.call('posts.remove', this.props.post._id, (error, res) => {
+      if (error) {
+        Bert.alert(error.reason, 'danger', 'growl-top-right');
+      } else {
+        Bert.alert('Post deleted successfully!', 'success', 'growl-top-right');
+        this.props.history.push("/posts");
+      }
+    })
+  }
+
   render() {
     const { post } = this.props;
 
@@ -208,7 +236,7 @@ class PostForm extends Component {
       <Style>
         <Form ref={(form) => (this.form = form)} onSubmit={(event) => event.preventDefault()}>
           <Form.Row>
-            <Form.Group controlId='formGridName' className = "name_1">
+            <Form.Group controlId='formGridName' className="name_1">
               <Form.Label>Name</Form.Label>
               <input
                 type="text"
@@ -280,7 +308,7 @@ class PostForm extends Component {
               defaultValue={post && _.find(category, { 'value': post.category })}
             />
           </Form.Group>
-          <Form.Group controlId='formGridContent' className = "description">
+          <Form.Group controlId='formGridContent' className="description">
             <Form.Label> Description</Form.Label>
             <FroalaEditorComponent
               tag='textarea'
@@ -290,7 +318,7 @@ class PostForm extends Component {
               config={{
                 key: "2J1B10dC4F5E4F4D3C3cwrvlvg1C3fxyD8ciC-9adepbcD2vyzdF3H3A8D6D4F4D4E3E2A16==", // Pass your key here
                 placeholder: "Edit Me",
-
+                height: 160,
                 charCounterCount: false,
                 events: {
                   'froalaEditor.image.beforeUpload': (e, editor, images) => {
@@ -321,11 +349,25 @@ class PostForm extends Component {
             <div className="thumb" key={file.name}>
               <div className="thumbInner">
                 {/* <span className="close">&times;</span> */}
-                <a href="#">
+                <a onClick={() => { this.removeFile(file); }}>
                   <i className="trash alternate outline icon"></i>
                 </a>
                 <img
                   src={file.preview}
+                  className="img"
+                />
+              </div>
+            </div>
+          ))}
+          {this.state.existingImages.map(imageUrl => (
+            <div className="thumb" key={imageUrl}>
+              <div className="thumbInner">
+                {/* <span className="close">&times;</span> */}
+                <a onClick={() => { this.removeExistingImage(imageUrl); }}>
+                  <i className="trash alternate outline icon"></i>
+                </a>
+                <img
+                  src={imageUrl}
                   className="img"
                 />
               </div>
@@ -337,6 +379,11 @@ class PostForm extends Component {
           <Button type="submit" bsstyle="success">
             {post && post._id ? 'Save Changes' : 'Add Post'}
           </Button>
+          {this.editing && (
+            <Button variant="danger" onClick={this.handleDelete} bsstyle="warning">
+            Delete This Post
+          </Button>
+          )}
         </Form>
       </Style>
     );

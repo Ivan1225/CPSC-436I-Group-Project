@@ -3,7 +3,7 @@ import styled from 'styled-components';
 const StyledSignup = styled.div`
   border: 1px solid var(--gray-lighter);
   padding: 25px;
-  max-width: 425px;
+  max-width: 800px;
   margin: 0 auto;
   border-radius: 3px;
 
@@ -18,7 +18,7 @@ const StyledSignup = styled.div`
     margin: 0 !important;
   }
 
-  button[type='submit'] {
+  button {
     height: 41px;
     margin-top: 20px;
   }
@@ -63,6 +63,7 @@ const StyledSignup = styled.div`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    cursor: pointer;
   }
   .thumbInner a {
     display: block;
@@ -75,7 +76,6 @@ const StyledSignup = styled.div`
     text-align: center;
     color: inherit;
 }
-
 `;
 
 export default StyledSignup;

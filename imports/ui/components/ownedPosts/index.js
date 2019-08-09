@@ -13,7 +13,6 @@ class OwnedPosts extends Component {
   };
 
   render() {
-    console.log(this.props);
     const {
       currentUser,
       posts,

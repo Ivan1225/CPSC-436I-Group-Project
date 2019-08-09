@@ -58,6 +58,7 @@ Meteor.methods({
       description: String,
       images: [String],
       price: Number,
+      title: String,
     });
 
     try {

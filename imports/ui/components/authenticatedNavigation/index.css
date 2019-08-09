@@ -6,6 +6,7 @@
     color: #201f1f;
     font-size: 100%;
     font-family: 'Amatic SC', cursive;
+    cursor: pointer;
 }
 
 
@@ -14,10 +15,12 @@
     font-size: 150%;
     font-family: 'Amatic SC', cursive;
     margin-left: 0.7em;
+    cursor: pointer;
 }
 
 .navbar-expand .navbar-nav .dropdown-menu .dropdown-item{
     color: #201f1f;
     font-size: 150%;
     font-family: 'Amatic SC', cursive;
+    cursor: pointer;
 }
