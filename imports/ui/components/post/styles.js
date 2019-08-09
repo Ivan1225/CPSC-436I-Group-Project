@@ -9,7 +9,7 @@ const StyledPost = styled.div`
       margin:auto;
     }
 
-    
+
     /* .fGnNhG.ui.six.cards{
       margin-left:10em;
     } */
@@ -41,7 +41,3 @@ const StyledPost = styled.div`
 `;
 
 export default StyledPost;
-
-/* width: calc(16.66666667% - 1.5em); */
-
-// margin: -.875em -.5em;

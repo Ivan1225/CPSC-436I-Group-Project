@@ -17,7 +17,6 @@ import Signup from '../signup';
 import IndexContent from '../_index_content';
 import Home from '../home'
 import Profile from '../Profile'
-import Popup from '../newComponents/Popup';
 import AccountsUIWrapper from '../account_ui_wrapper';
 import PostForm from '../postForm';
 import Navigation from '../navigation';
@@ -177,7 +176,6 @@ class Index extends Component {
 
             </Switch>
 
-            <Popup />
           </div>
           {/* </div> */}
         </BrowserRouter>

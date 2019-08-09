@@ -3,8 +3,11 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { Container } from 'semantic-ui-react'
 import { Image } from 'semantic-ui-react'
-
+import "react-image-gallery/styles/css/image-gallery.css";
 import Style from './styles';
+import ImageGallery from 'react-image-gallery';
+import moment from 'moment';
+import { withRouter } from 'react-router-dom';
 
 class PostDetails extends Component {
   static propTypes = {
@@ -13,43 +16,63 @@ class PostDetails extends Component {
   };
 
   render() {
-    console.log(this.props);
     const {
       post,
-    }  = this.props;
+    } = this.props;
+
+    const images = _.map(post.images, image => ({ original: image, thumbnail: image }));
+
+    const updateAt = moment(post.updatedAt, 'YYYY-MM-DDTHH:mm:ss.SSSZ');
+    const lastUpdateTime = updateAt.fromNow();
 
     return (
       <Style>
-        <Container>
-        <div className = "ui two column grid">
+        <div style={{ marginLeft: '25px', marginRight: '25px' }}>
+          <h2 className="postingTitle">
+            <span></span>
+            <span>
+              <span>{post.title}</span>
+              <span> - </span>
+              <span>{`$${post.price}`}</span>
+              <small>{`(${post.city})`}</small>
+            </span>
+            <div className="col-md-12 content-time">{`last updated ${lastUpdateTime}`}</div>
+          </h2>
+          <ImageGallery
+            items={images}
+          />
 
-          <div className = "de">
-          <Image src={post.image}
-          as='a'
-          size='big'
-          target='_blank'
-          rounded/>
+          <div className="text">
+            <div>
+              <i class="user icon"></i>
+              Owner: {post.ownerName}
+            </div>
+            <div>
+              <i class="envelope icon"></i>
+              Email: {post.email}
+            </div>
+            <div>
+              <i class="phone icon"></i>
+              Phone: {post.phoneNumber}
+            </div>
+            <div>
+              <i class="tag icon"></i>
+              Category: {post.category}
+            </div>
+            <div>
+              <i class="info icon"></i>
+              Description:
+              <div className="description" dangerouslySetInnerHTML={{ __html: post.description }} />
+            </div>
           </div>
 
-          <div className = "text">
-          <li>Category: {post.category}</li>
-          <li>TITLE: {post.title}</li>
-          <li>CITY: {post.city}</li>
-          <li>DESCRIPTION: {post.description}</li>
-          <li>OWNER NAME :{post.ownerName}</li>
-          <li>EMAIL: {post.email}</li>
-          <li>#PHONE: {post.phoneNumber}</li>
-          </div>
-          
-         
 
-        </div> 
-        </Container>
-        
+        </div>
+
       </Style>
     );
 
   }
 }
 
-export default PostDetails;
+export default withRouter(PostDetails);
