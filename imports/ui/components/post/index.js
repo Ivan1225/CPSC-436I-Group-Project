@@ -53,7 +53,7 @@ class Post extends Component {
 
     return (
       <Card>
-        <NavLink style={{height: '200px', display: 'flex', alignItems: 'center'}} className="justify-content:center" to={path}>
+        <NavLink style={{height: '200px', display: 'flex', alignItems: 'center', overflow: 'hidden'}} className="justify-content:center" to={path}>
           <Image
             alt={post.title}
             src={_.isEmpty(post.images) ? 'https://wstore-app.s3-us-west-1.amazonaws.com/default.jpg' : post.images[0]}
